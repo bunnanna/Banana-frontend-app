@@ -91,7 +91,7 @@ h2{
   padding: 20px;
   border-color: aliceblue;
   min-height: 70vh;
-  height: 200vh;  
+  min-height: 200vh;  
 }
 
 /* Task */
@@ -101,6 +101,62 @@ h2{
   border-radius: 10px;
   border-color: black;
   color: black;
-  padding: 10px;
-  margin: 10px 0 10px 0;
+  padding: 2vh;
+  margin: 2vh 0 2vh 0;
+  border-left-width: 4vh;
+}
+.task__card>*{
+  margin: 2vh;
+  margin-left: 0;
+}
+.uncomplete{
+  border-left-color: red;
+}
+
+.completed{
+  border-left-color: rgb(0, 255, 0);
+}
+
+.task__project{
+  margin-top: 2vh;
+  font-size: 3vw;
+}
+
+.task__task{
+  margin-top: 2vh;
+  font-size: 2.5vh;
+}
+.task__teams>*>*{
+  border-style: solid;
+  border-radius: 3px;
+  padding: 1vh;
+  margin: 0  0 0 2vh;
+}
+.card__space{
+  margin: 3vh 0 3vh 0;
+}
+.task__skills{
+  margin: 3vh 0 3vh 0;
+}
+
+.task__skills>*>*{
+  border-style: solid;
+  border-radius: 3px;
+  padding: 1vh;
+  margin: 0  0 0 2vh;
+}
+.task__description>*:last-child{
+  padding: 1vh;
+  font-size: 1.5vw;
+}
+.task__checklist>*>span:first-child{
+  border-style: solid;
+  border-radius: 2px;
+}
+
+.task__checklist>*>span{
+  margin-right: 1vh;
+}
+.task__checklist>*{
+  margin-top: 1vh;
 }
