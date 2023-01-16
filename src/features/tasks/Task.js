@@ -1,5 +1,6 @@
 import { useGetTasksQuery } from "./tasksApiSlice";
-import CheckList from "../../components/CheckList"
+import { memo } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Task = ({taskId}) => {
     const {task} = useGetTasksQuery("tasksList",{
@@ -8,9 +9,12 @@ const Task = ({taskId}) => {
         })
     })
 
+    const navigate=useNavigate()
+
     if(task){
     
     const {projectname,taskname,teams,skills,description,checklist,complete} = task
+    const onHandleEdit = () => navigate(`/main/joblist/${taskId}`)
     
     return ( <div className={`task__card ${complete?"completed":"uncomplete"}`}>
         <div className="task__project">
@@ -43,10 +47,21 @@ const Task = ({taskId}) => {
             <div>
                 Checklist :
             </div>
-            {checklist.map(Clist => <CheckList key={Clist.subtask} Clist={Clist} /> )}
+            {checklist.map((input, index) => {
+                        return (
+                            <div key={index} className="task__checklists__element">
+                                <button className="check__input" name="check"  value={input.check}> {input.check ? <span>✔</span> : <span>✕</span>}</button>
+                                <span >{input.subtask}</span>
+                            </div>)
+                    })}
         </div>
-    </div> );
+        <div className="edit__button">
+            <button onClick={onHandleEdit}>Edit</button>
+        </div>
+    </div>
+    
+    );
     }else return null
 }
- 
-export default Task;
+const memoTask = memo(Task)
+export default memoTask;

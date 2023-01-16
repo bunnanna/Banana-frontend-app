@@ -15,29 +15,59 @@ body {
 }
 a{
   text-decoration: none;
+  font-size: 2vw;
   color: aqua;
 }
+button{
+  background-color: #fff;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  font-size: 2vh;
+  width: 4vh;
+  height: 4vh;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1vh;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
+.offscreen{
+  display: none;
+}
+.onscreen{
+  display:contents;
+}
+/* HEADER */
 .page__header{
   display: flex;
   justify-content: space-between;
   padding: 0 1vh 0 1vh;
   background-color: rgb(254, 234, 136);
+  height:10vh;
+  align-items: center;
 }
-
+.page__header button{
+  width: 4vw;
+  height: 4vw;
+  font-size: 0.5vw;
+  border:none;
+  margin: 0 0 0 2vh;
+}
 .header__content{
   color: black;
   float: left;
   width: 100%;
+
 }
 .body__content{
   min-height:85vh;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 2vw;
+  padding-right: 2vw;
   display: flex;
   justify-content: center;
   justify-items: center;
@@ -57,12 +87,12 @@ h2{
 }
 
 .main__content{
-  width : 100%;
+  width : 100vw;
   min-height:80vh;
-  margin:1%;
+  margin:1vw;
   display: grid;
   grid-template-columns: 15% 82%;
-  column-gap : 3%;
+  column-gap : 3vw;
 }
 
 .menu__zone{
@@ -73,10 +103,10 @@ h2{
   position:sticky;
   background-color: rgba(228, 255, 246, 0.25);
   border-style: solid;
-  border-radius: 10px;
+  border-radius: 2vw;
   padding: 1vh;
-  top: 20px;
-  width: 100%;
+  top: 4vh;
+  width: 20vw;
   max-height: 60vh;
 }
 .title__menu{
@@ -87,27 +117,35 @@ h2{
 .content__zone{
   background-color: rgba(248, 225, 225, 0.251);
   border-style: solid;
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: 2vw;
+  padding: 2vw;
   border-color: aliceblue;
   min-height: 70vh;
-  min-height: 200vh;  
+ 
 }
 
 /* Task */
 .task__card{
   background-color: aliceblue;
   border-style: solid;
-  border-radius: 10px;
+  border-left-width: 1vh;
+  border-radius: 0 2vw 2vw 0;
   border-color: black;
   color: black;
   padding: 2vh;
   margin: 2vh 0 2vh 0;
-  border-left-width: 4vh;
+  display: grid;
+  grid-template-columns: 70% 30%;
 }
 .task__card>*{
   margin: 2vh;
   margin-left: 0;
+
+  
+}
+.Text__box{
+  font-size: 2vh;
+  margin: 1vh 0;
 }
 .uncomplete{
   border-left-color: red;
@@ -118,40 +156,33 @@ h2{
 }
 
 .task__project{
-  margin-top: 2vh;
-  font-size: 3vw;
+  margin: 0 1vh;
+  font-size: 2.5vw;
 }
-
+.task__project__layout{
+  display: grid;
+  grid-template-columns: 30% 65%;
+}
 .task__task{
-  margin-top: 2vh;
   font-size: 2.5vh;
-}
-.task__teams>*>*{
-  border-style: solid;
-  border-radius: 3px;
-  padding: 1vh;
-  margin: 0  0 0 2vh;
-}
-.card__space{
-  margin: 3vh 0 3vh 0;
-}
-.task__skills{
-  margin: 3vh 0 3vh 0;
+  display: flex;
+  align-items: center;
+  text-align: center;
 }
 
-.task__skills>*>*{
-  border-style: solid;
-  border-radius: 3px;
-  padding: 1vh;
-  margin: 0  0 0 2vh;
+.teams__input,.skills__element{
+  margin: 0 0 0 1vh;
+  padding: 0;
 }
-.task__description>*:last-child{
-  padding: 1vh;
-  font-size: 1.5vw;
+
+.teams__input input,.skills__element input,.task__checklists__element{
+  width: 10vw;
+  margin: 1vh 0;
 }
-.task__checklist>*>span:first-child{
+
+.check__input{
   border-style: solid;
-  border-radius: 2px;
+  border-radius: 0.5vw;
 }
 
 .task__checklist>*>span{
@@ -159,4 +190,24 @@ h2{
 }
 .task__checklist>*{
   margin-top: 1vh;
+}
+.task__checklists__element{
+  display: flex;
+  align-items: center;
+}
+
+.save__button{
+  width: 8vh;
+  border-radius: 2vh;
+  background-color: aqua;
+}
+.del__button{
+  width: 8vh;
+  border-radius: 2vh;
+  background-color: rgb(255, 4, 0);
+}
+.Add__button{
+  width: 8vh;
+  border-radius: 0.5vh;
+  background-color: rgb(255, 127, 98);
 }
