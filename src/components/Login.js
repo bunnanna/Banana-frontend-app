@@ -1,16 +1,11 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { useGetUsersQuery } from "../features/users/usersApiSlice";
+
 
 const Login = () => {
     const usernameRef = useRef()
     const passwordRef = useRef()
 
-    const onLogin = e =>{
-        e.preventDefault()
-        
-
-    }
 
     return ( 
         <div><h1>Login</h1> 

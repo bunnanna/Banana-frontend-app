@@ -1,6 +1,6 @@
 import { useGetTasksQuery } from "./tasksApiSlice";
-import Task from "./Task";
 import { Link } from "react-router-dom";
+import MiniTask from "./MiniTask";
 
 const JobsList = () => {
     // const {pathname} = useLocation()
@@ -16,7 +16,7 @@ const JobsList = () => {
     if(isError){content = <p>Something went wrong {error?.data?.message}</p>}
     if (isSuccess){
         const {ids} = tasks
-        const jobCardList = ids?.length && ids.map(taskId=><Task key={taskId} taskId={taskId}/>)
+        const jobCardList = ids?.length && ids.map(taskId=><MiniTask key={taskId} taskId={taskId}/>)
         content =(<>
             <div className="title__menu">
                 jobList

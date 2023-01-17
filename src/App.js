@@ -7,8 +7,8 @@ import Login from "./components/Login";
 import MainPage from "./components/MainPage";
 import Prefetch from "./features/auth/Prefetch";
 import OutletLayout from "./components/Outlet";
-import EditTask from "./features/tasks/EditTaskForm";
-
+import TaskComponent from "./features/tasks/TaskComponent";
+import EditTask from "./features/tasks/EditTask";
 
 function App() {
   return (
@@ -21,7 +21,10 @@ function App() {
           <Route path="joblist" element={<OutletLayout/>}>
             <Route index element={<JobsList/>}/>
             <Route path="new" element={<NewTask/>}/>
-            <Route path=":id" element={<EditTask/>}/>
+            <Route path=":id" element={<OutletLayout/>}>
+              <Route index element={<TaskComponent/>}/>
+              <Route path="edit" element={<EditTask/>}/>
+            </Route>
           </Route>
         </Route>
         </Route>

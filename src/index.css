@@ -175,7 +175,7 @@ h2{
   padding: 0;
 }
 
-.teams__input input,.skills__element input,.task__checklists__element{
+.teams__input input,.skills__element input,.task__checklists__element.subtask__input{
   width: 10vw;
   margin: 1vh 0;
 }
