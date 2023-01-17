@@ -9,6 +9,7 @@ import Prefetch from "./features/auth/Prefetch";
 import OutletLayout from "./components/Outlet";
 import TaskComponent from "./features/tasks/TaskComponent";
 import EditTask from "./features/tasks/EditTask";
+import RequireAuth from "./features/auth/RequireAuth";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<FirstPage/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route element={<Prefetch/>}>
+        <Route element={<RequireAuth allowedRoles={["Employee"]}/>}>
         <Route path="main" element={<MainPage/>}>
           <Route path="joblist" element={<OutletLayout/>}>
             <Route index element={<JobsList/>}/>
@@ -26,6 +28,7 @@ function App() {
               <Route path="edit" element={<EditTask/>}/>
             </Route>
           </Route>
+        </Route>
         </Route>
         </Route>
 
