@@ -16,7 +16,7 @@ body {
 a{
   text-decoration: none;
   font-size: 2vw;
-  color: aqua;
+  color: rgb(0, 34, 255);
 }
 button{
   background-color: #fff;
@@ -91,15 +91,19 @@ h2{
   background-color: rgba(228, 255, 246, 0.25);
   border-style: solid;
   border-radius: 2vw;
-  
+  width: 30vw;
   padding: 5vh;
 }
 .login__form{
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 40% 60%;
 }
 .login__form>*{
   margin: 1vh;
+}
+.login__input{
+  border-radius: 0.5vw;
+  padding: auto;
 }
 .login__button{
   width: fit-content;
@@ -230,4 +234,14 @@ h2{
   width: 8vh;
   border-radius: 0.5vh;
   background-color: rgb(255, 127, 98);
+}
+
+.user__profile{
+  background-color: rgb(255, 255, 255,.25);
+  width: 100%;
+  height: 100%;
+  position:fixed;
+  top: 10vh;
+  display: grid;
+  grid-template-columns: 30% 70%;
 }

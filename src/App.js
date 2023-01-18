@@ -10,6 +10,9 @@ import OutletLayout from "./components/Outlet";
 import TaskComponent from "./features/tasks/TaskComponent";
 import EditTask from "./features/tasks/EditTask";
 import RequireAuth from "./features/auth/RequireAuth";
+import Signin from "./components/Signin";
+import PersistLogin from "./features/auth/PersistLogin";
+import UserPage from "./features/users/UserPage";
 
 function App() {
   return (
@@ -17,6 +20,9 @@ function App() {
       <Route path="/" element={<Layout/>}>
         <Route path="/" element={<FirstPage/>}/>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/signin" element={<Signin/>}/>
+
+        <Route element={<PersistLogin/>}>
         <Route element={<Prefetch/>}>
         <Route element={<RequireAuth allowedRoles={["Employee"]}/>}>
         <Route path="main" element={<MainPage/>}>
@@ -29,9 +35,12 @@ function App() {
             </Route>
           </Route>
         </Route>
+        <Route path="user" element={<OutletLayout/>}>
+          <Route index element={<UserPage/>}/>
         </Route>
         </Route>
-
+        </Route>
+        </Route>
 
       </Route>
     </Routes>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../features/auth/authApiSlice";
 import { setCredentials } from "../features/auth/authSlice";
 
@@ -25,11 +25,9 @@ const Login = () => {
         setErrMsg("")
     },[username,password])
 
-    const handleSubmit = async(e)=>{
+    const handleLogin = async(e)=>{
         e.preventDefault()
-        
         try {
-            
             const {accessToken} = await login({username,password}).unwrap()
             dispatch(setCredentials({accessToken}))
             setUsername("")
@@ -49,6 +47,7 @@ const Login = () => {
             errRef.current.focus()
         }
     }
+    const handleSignin = e =>navigate("/signin")
 
     const onUsernameChange = e => setUsername(e.target.value)
     const onPasswordChange = e => setPassword(e.target.value)
@@ -58,18 +57,18 @@ const Login = () => {
     return (
         <div>
             <h1>Login</h1>
-            <Link to="/main"><h2> Complete!!!?</h2></Link>
             <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
             <div className="login__layout">
                 <div className="login__form">
                     <label htmlFor="username">Username</label>
-                    <input type="text" name="username" ref={userRef} value={username} onChange={onUsernameChange} />
+                    <input type="text" className="login__input" name="username" ref={userRef} value={username} onChange={onUsernameChange} />
 
                     <label htmlFor="password">Password</label>
-                    <input type="password" name="password" value={password} onChange={onPasswordChange} />
+                    <input type="password" className="login__input" name="password" value={password} onChange={onPasswordChange} />
                 </div>
                 <div>
-                    <button onClick={handleSubmit} className="login__button">Login</button>
+                    <button onClick={handleLogin} className="login__button">Login</button>
+                    <button onClick={handleSignin} className="login__button">Sign in</button>
                 </div>
 
             </div>
