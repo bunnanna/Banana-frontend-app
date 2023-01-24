@@ -1,22 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useCurrentUser from "../../hooks/useCurrentUser";
 import { useDeleteTaskMutation, useUpdateTaskMutation } from "./tasksApiSlice";
 
 const EditTaskForm = ({ task }) => {
 
-
-
+    const {username} = useCurrentUser()
 
     const [updateTask, { isLoading, isSuccess, isError, error }] = useUpdateTaskMutation()
     const [deleteTask, { isLoading: isDelLoading, isSuccess: isDelSuccess, isError: isDelError, error: delError }] = useDeleteTaskMutation()
-    const { id, projectname, taskname, teams, skills, description, checklist, complete } = task
+    const { id, projects, taskname, teams, skills, description, checklists, complete } = task
 
     const navigate = useNavigate()
 
     const [Teams, setTeams] = useState(teams)
     const [Skills, setSkills] = useState(skills)
-    const [CheckLists, setCheckLists] = useState(checklist)
-    const projectnameRef = useRef(projectname)
+    const [CheckLists, setCheckLists] = useState(checklists)
+    const projectnameRef = useRef(projects)
     const tasknameRef = useRef(taskname)
     const descriptionRef = useRef(description)
 
@@ -119,8 +119,9 @@ const EditTaskForm = ({ task }) => {
                 description: descriptionRef.current.value?.trim(),
                 teams: Teams.filter(e => !!(e?.trim())),
                 skills: Skills.filter(e => !!(e?.trim())),
-                checklist: CheckLists.filter(e => !!(e.subtask?.trim())),
-                complete
+                checklists: CheckLists.filter(e => !!(e.subtask?.trim())),
+                complete,
+                activity:`${username} update task `
             }
             await updateTask({ ...NewTask })
         } else {
@@ -145,7 +146,7 @@ const EditTaskForm = ({ task }) => {
                 <div className="task__project">
                     <div className="task__project__layout">
                         <label htmlFor="task__project">Project* :</label>
-                        <input id="task__project" className="Text__box" type="text" ref={projectnameRef} defaultValue={projectname} />
+                        <input id="task__project" className="Text__box" type="text" ref={projectnameRef} defaultValue={projects} />
 
                         <label htmlFor="task__task" className="task__task">Task* :</label>
                         <input id="task__task" className="Text__box" type="text" ref={tasknameRef} defaultValue={taskname} />

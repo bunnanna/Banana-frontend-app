@@ -1,4 +1,5 @@
 const UserProfile = ({user}) => {
+
     return ( <div className="user__profile">
         <section>
             {user.username}

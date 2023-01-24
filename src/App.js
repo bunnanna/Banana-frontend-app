@@ -10,13 +10,15 @@ import OutletLayout from "./components/Outlet";
 import TaskComponent from "./features/tasks/TaskComponent";
 import EditTask from "./features/tasks/EditTask";
 import RequireAuth from "./features/auth/RequireAuth";
-import Signin from "./components/Signin";
+import Signin from "./features/auth/Signin";
 import PersistLogin from "./features/auth/PersistLogin";
 import UserPage from "./features/users/UserPage";
+import PrefetchA from "./features/auth/PrefetchA";
 
 function App() {
   return (
     <Routes>
+      <Route element={<PrefetchA/>}>
       <Route path="/" element={<Layout/>}>
         <Route path="/" element={<FirstPage/>}/>
         <Route path="/login" element={<Login/>}/>
@@ -41,7 +43,7 @@ function App() {
         </Route>
         </Route>
         </Route>
-
+        </Route>
       </Route>
     </Routes>
   );

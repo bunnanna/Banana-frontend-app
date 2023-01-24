@@ -10,12 +10,12 @@ const MiniTask = ({taskId}) => {
 
     if(task){
     
-    const {projectname,taskname,teams,skills,complete} = task
+    const {projects,taskname,teams,skills,complete} = task
 
     return(<Link to={`/main/joblist/${taskId}`}>
     <div className={`task__card ${complete?"completed":"uncomplete"}`}>
     <div className="task__project">
-        {projectname}
+        {projects}
     </div>
     <div className="task__task">
         {taskname}

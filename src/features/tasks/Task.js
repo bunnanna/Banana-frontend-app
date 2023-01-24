@@ -13,14 +13,15 @@ const Task = ({ taskId }) => {
 
     if (task) {
 
-        const { projectname, taskname, teams, skills, description, checklist, complete } = task
+        const { projects, taskname, teams, skills, description, checklists, complete } = task
         const onHandleEdit = () => navigate(`/main/joblist/${taskId}/edit`)
+        console.log(task);
 
         return (<div className={`task__card ${complete ? "completed" : "uncomplete"}`}>
             <div>
                 <div>
                     <div className="task__project">
-                        {projectname}
+                        {projects}
                     </div>
                     <div className="task__task">
                         {taskname}
@@ -40,7 +41,7 @@ const Task = ({ taskId }) => {
                     <div>
                         Checklist :
                     </div>
-                    {checklist.map((input, index) => {
+                    {checklists.map((input, index) => {
                         return (
                             <div key={index} className="task__checklists__element">
                                 <button className="check__input" name="check" value={input.check}> {input.check ? <span>✔</span> : <span>✕</span>}</button>
@@ -54,13 +55,13 @@ const Task = ({ taskId }) => {
                 <div className="task__teams">
                     teams :
                     <div className="card__space">
-                        {teams.map(e => <span key={e}>{e}</span>)}
+                        {teams.map(e => <div key={e}>{e}</div>)}
                     </div>
                 </div>
                 <div className="task__skills">
                     required skill :
                     <div className="card__space">
-                        {skills.map(e => <span key={e}>{e}</span>)}
+                        {skills.map(e => <div key={e}>{e}</div>)}
                     </div>
                 </div>
 

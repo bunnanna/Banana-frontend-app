@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
+import { useGetProjectsQuery } from "../projects/projectsApiSlice";
+import { useGetSkillsQuery } from "../skills/skillsApiSlice";
+import { useGetTeamsQuery } from "../teams/teamsApiSlice";
 import { useAddNewTaskMutation } from "./tasksApiSlice";
 
 const NewTask = () => {
@@ -9,15 +13,21 @@ const NewTask = () => {
     const navigate = useNavigate()
 
     const [Teams, setTeams] = useState([""])
-    const [Skills, setSkills] = useState([""])
+
     const [CheckLists, setCheckLists] = useState([{ check: false, subtask: "" }])
-    const projectnameRef = useRef("")
+    const [Projects, setProjects] = useState([""])
     const tasknameRef = useRef("")
     const descriptionRef = useRef("")
+    const [Skills, setSkills] = useState([""])
+    const {data:skills,isSuccess:isSkillSuccess} = useGetSkillsQuery("skillsList")
+    const {data:projects,isSuccess:isProjectSuccess} = useGetProjectsQuery("projectsList")
+    const {data:teams,isSuccess:isTeamSuccess} = useGetTeamsQuery("teamsList")
+
+
 
     useEffect(()=>{
         if(isSuccess){
-            projectnameRef.current.value=""
+            setProjects("")
             tasknameRef.current.value=""
             descriptionRef.current.value=""
             setTeams([""])
@@ -27,46 +37,6 @@ const NewTask = () => {
             navigate("/main/joblist")
         }
     },[isSuccess,navigate])
-
-    // Teams Button Handle 
-    const onHandleAddTeams = (e) => {
-        e.preventDefault();
-        let newTeams = ""
-        setTeams([...Teams, newTeams])
-    }
-    const onHandleChangeTeams = (index, value) => {
-        let teams_data = [...Teams]
-        teams_data[index] = value
-        setTeams(teams_data)
-    }
-
-    const onHandleDeleteTeams = (e, index) => {
-        e.preventDefault()
-        let teams_data = [...Teams]
-        teams_data.splice(index, 1)
-        if (teams_data?.length === 0) teams_data = [""]
-        setTeams(teams_data)
-    }
-
-    // Skills Button Handle 
-    const onHandleAddSkills = (e) => {
-        e.preventDefault();
-        let newSkills = ""
-        setSkills([...Skills, newSkills])
-    }
-    const onHandleChangeSkills = (index, value) => {
-        let skills_data = [...Skills]
-        skills_data[index] = value
-        setSkills(skills_data)
-    }
-
-    const onHandleDeleteSkills = (e, index) => {
-        e.preventDefault()
-        let skills_data = [...Skills]
-        skills_data.splice(index, 1)
-        if (skills_data.length === 0) skills_data = [""]
-        setSkills(skills_data)
-    }
 
     // CheckLists Button Handle 
     const onHandleAddCheckLists = (e) => {
@@ -101,16 +71,17 @@ const NewTask = () => {
 
     const onSaveClicked= async (e)=>{
         e.preventDefault()
-        const cansave = !!projectnameRef.current.value?.trim()&&!!tasknameRef.current.value?.trim()&& !isLoading
+        const cansave = !!Projects?.trim()&&!!tasknameRef.current.value?.trim()&& !isLoading
         if(cansave){
             const NewTask = {
-            projectname:projectnameRef.current.value?.trim(),
+            project:Projects?.trim(),
             taskname:tasknameRef.current.value?.trim(),
             description:descriptionRef.current.value?.trim(),
             teams:Teams.filter(e=>!!(e?.trim())),
             skills:Skills.filter(e=>!!(e?.trim())),
-            checklist:CheckLists.filter(e=>!!(e.subtask?.trim())),
+            checklists:CheckLists.filter(e=>!!(e.subtask?.trim())),
             }
+            console.log({...NewTask});
             await addNewTask({...NewTask})
         }else{
             setErrmsg("* Field Required")
@@ -118,16 +89,34 @@ const NewTask = () => {
     }
    
     useEffect(()=>{setErrmsg(error?.data?.message) },[isError,error])
-
-    return (
+    let content
+    if(isProjectSuccess&&isSkillSuccess&&isTeamSuccess){
+        const skillsOption = skills.ids.map(e=>{
+            return{value:e,label:skills.entities[e].skillname}
+        })
+        const projectsOption = projects.ids.map(e=>{
+            return{value:e,label:projects.entities[e].projectname}
+        })
+        const teamsOption = teams.ids.map(e=>{
+            return{value:e,label:teams.entities[e].teamname}
+        })
+    content=(
     <div>
         <p className={errmsg?"onscreen":"offscreen"}>{errmsg}</p>
         <div className={`task__card`}>
         <div>
             <div className="task__project">
                 <div className="task__project__layout">
-                    <label htmlFor="task__project">Project* :</label>
-                    <input id="task__project" className="Text__box" type="text" ref={projectnameRef} />
+                    <div>Project* :</div>
+                    <div>
+                      <Select 
+                options={projectsOption}
+                onChange={e=>setProjects(e.value)}
+                className="dropdown"
+                />  
+                    </div>
+                    
+                    
 
                     <label htmlFor="task__task" className="task__task">Task* :</label>
                     <input id="task__task" className="Text__box" type="text" ref={tasknameRef} />
@@ -171,47 +160,29 @@ const NewTask = () => {
         <div>
             <div className="task__teams">
             <div>
-                <span>Teams <button onClick={e => onHandleAddTeams(e)} className="Add__button">Add</button></span>
+                <span>Teams</span>
             </div>
-            <div className="teams__element">
-                {Teams.map((input, index) => {
-                    return (
-                        <div key={index} className="teams__input">
-                            <input
-                                type="text"
-                                name="Teams"
-                                placeholder="Input Teams"
-                                value={input}
-                                onChange={event => onHandleChangeTeams(index, event.target.value)}
-                            />
-                            <button onClick={e => onHandleDeleteTeams(e, index)}>X</button>
-                        </div>)
-                })}
-
-            </div>
+            <Select 
+                options={teamsOption}
+                isMulti
+                onChange={e=>setTeams(e.map(ele=>ele.value))}
+                className="dropdown"
+                />
+                
         </div>
 
 
         <div className="task__skills">
             <div>
-            <span>required skill <button onClick={e => onHandleAddSkills(e)} className="Add__button">Add</button></span>    
+            <span>required skill</span>    
             </div>
             
-            <div className="skills__element">
-                {Skills.map((input, index) => {
-                    return (
-                        <div key={index} className="skills__input">
-                            <input
-                                type="text"
-                                name="Skills"
-                                placeholder="Input Skills"
-                                value={input}
-                                onChange={event => onHandleChangeSkills(index, event.target.value)}
-                            />
-                            <button onClick={e => onHandleDeleteSkills(e, index)}>X</button>
-                        </div>)
-                })}
-            </div>
+            <Select 
+                options={skillsOption}
+                isMulti
+                onChange={e=>setSkills(e.map(ele=>ele.value))}
+                className="dropdown"
+                />
         </div>
 
         
@@ -223,6 +194,9 @@ const NewTask = () => {
     </div>
     
     );
+    }
+    return content
+
 }
 
 export default NewTask;

@@ -7,11 +7,14 @@ const initialState = usersAdapter.getInitialState()
 export const usersApiSlice = apiSlice.injectEndpoints({
     endpoints:builder=>({
         getUsers:builder.query({
-            query:()=>({
+            query:(user)=>({
                 url:"/users",
+                method:"PUT",
+                body:user,
                 validateStatus:(res,result)=>{
                     return res.status === 200 && !result.isError
                 },
+
             }),
             transformResponse:responseData=>{
                 const loadedUsers = responseData.map(user=>{
@@ -56,7 +59,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             invalidatesTags:(result,error,arg)=>[
                 {type:"User",id:arg.id}
             ]
-        })
+        }),
     })
 })
 

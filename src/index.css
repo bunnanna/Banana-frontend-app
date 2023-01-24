@@ -42,6 +42,9 @@ code {
 .onscreen{
   display:contents;
 }
+.dropdown{
+  color: black;
+}
 /* HEADER */
 .page__header{
   display: flex;
