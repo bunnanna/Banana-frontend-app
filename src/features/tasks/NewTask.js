@@ -39,11 +39,21 @@ const NewTask = () => {
     },[isSuccess,navigate])
 
     // CheckLists Button Handle 
-    const onHandleAddCheckLists = (e) => {
-        e.preventDefault();
+    
+    
+    useEffect(()=>{
+        const onHandleAddCheckLists = () => {
         let newCheckLists = { check: false, subtask: "" }
         setCheckLists([...CheckLists, newCheckLists])
-    }
+        }
+
+        if(CheckLists.at(-1)["subtask"]){
+            onHandleAddCheckLists()
+        }
+            
+        
+    },[CheckLists])
+
     const onHandleChangeCheckLists = (index, event) => {
         let checkLists_data = [...CheckLists]
         checkLists_data[index]["subtask"] = event.target.value
@@ -64,8 +74,6 @@ const NewTask = () => {
         checkLists_data[index]["check"] = !input.check
         setCheckLists(checkLists_data)
     }
-
-    // const cansave = !!projectnameRef.current.value?.trim()&&!!tasknameRef.current.value?.trim()&& !isLoading
 
     const [errmsg,setErrmsg] = useState("")
 
@@ -103,7 +111,7 @@ const NewTask = () => {
     content=(
     <div>
         <p className={errmsg?"onscreen":"offscreen"}>{errmsg}</p>
-        <div className={`task__card`}>
+        <div className={`task__card__edit`}>
         <div>
             <div className="task__project">
                 <div className="task__project__layout">
@@ -127,12 +135,12 @@ const NewTask = () => {
                     Descrition :
                 </div>
                 <div>
-                    <input type="text" ref={descriptionRef} />
+                    <input type="text" className="task__description__input" ref={descriptionRef} />
                 </div>
             </div>
             <div className="task__checklists">
             <div>
-                Checklists :<button onClick={e => onHandleAddCheckLists(e)} className="Add__button">Add</button>
+                Checklists :
                 <div className="card__space">
                     {CheckLists.map((input, index) => {
                         return (
@@ -166,7 +174,7 @@ const NewTask = () => {
                 options={teamsOption}
                 isMulti
                 onChange={e=>setTeams(e.map(ele=>ele.value))}
-                className="dropdown"
+                className="task__teams__dropdown"
                 />
                 
         </div>
@@ -181,7 +189,7 @@ const NewTask = () => {
                 options={skillsOption}
                 isMulti
                 onChange={e=>setSkills(e.map(ele=>ele.value))}
-                className="dropdown"
+                className="task__skills__dropdown"
                 />
         </div>
 
@@ -194,7 +202,7 @@ const NewTask = () => {
     </div>
     
     );
-    }
+                }
     return content
 
 }

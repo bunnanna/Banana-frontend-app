@@ -7,8 +7,10 @@ const initialState = tasksAdapter.getInitialState()
 export const tasksApiSlice = apiSlice.injectEndpoints({
     endpoints:builder=>({
         getTasks:builder.query({
-            query:()=>({
+            query:(task)=>({
                 url:"/tasks",
+                method:"PUT",
+                body:task,
                 validateStatus:(res,result)=>{
                     return res.status === 200 && !result.isError
                 },
@@ -47,6 +49,16 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
                 {type:"Task",id:arg.id}
             ]
         }),
+        updatecheckTask:builder.mutation({
+            query:checklist=>({
+                url:"/tasks/checklists",
+                method:"PATCH",
+                body:checklist
+            }),
+            invalidatesTags:(result,error,arg)=>[
+                {type:"Task",id:arg.id}
+            ]
+        }),
         deleteTask:builder.mutation({
             query:({id})=>({
                 url:"/tasks",
@@ -60,4 +72,4 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const {useGetTasksQuery,useAddNewTaskMutation,useUpdateTaskMutation,useDeleteTaskMutation}=tasksApiSlice
+export const {useGetTasksQuery,useAddNewTaskMutation,useUpdateTaskMutation,useDeleteTaskMutation,useUpdatecheckTaskMutation}=tasksApiSlice

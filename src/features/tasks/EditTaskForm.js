@@ -2,28 +2,34 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import { useDeleteTaskMutation, useUpdateTaskMutation } from "./tasksApiSlice";
-
+import Select from "react-select"
+import { useGetSkillsQuery } from "../skills/skillsApiSlice";
+import { useGetProjectsQuery } from "../projects/projectsApiSlice";
+import { useGetTeamsQuery } from "../teams/teamsApiSlice";
 const EditTaskForm = ({ task }) => {
 
-    const {username} = useCurrentUser()
+    const {id:userid} = useCurrentUser()
 
     const [updateTask, { isLoading, isSuccess, isError, error }] = useUpdateTaskMutation()
     const [deleteTask, { isLoading: isDelLoading, isSuccess: isDelSuccess, isError: isDelError, error: delError }] = useDeleteTaskMutation()
-    const { id, projects, taskname, teams, skills, description, checklists, complete } = task
+    const { id, project, taskname, teams, skills, description, checklists, complete } = task
 
     const navigate = useNavigate()
 
-    const [Teams, setTeams] = useState(teams)
-    const [Skills, setSkills] = useState(skills)
     const [CheckLists, setCheckLists] = useState(checklists)
-    const projectnameRef = useRef(projects)
+    const [Projects, setProjects] = useState(project._id)
     const tasknameRef = useRef(taskname)
     const descriptionRef = useRef(description)
+    const [Skills, setSkills] = useState(skills.map(e=>e._id))
+    const [Teams, setTeams] = useState(teams.map(e=>e._id))
+    const {data:all_skills,isSuccess:isSkillSuccess} = useGetSkillsQuery("skillsList")
+    const {data:all_projects,isSuccess:isProjectSuccess} = useGetProjectsQuery("projectsList")
+    const {data:all_teams,isSuccess:isTeamSuccess} = useGetTeamsQuery("teamsList")
 
 
     useEffect(() => {
         if (isSuccess || isDelSuccess) {
-            projectnameRef.current.value = ""
+            setProjects("")
             tasknameRef.current.value = ""
             descriptionRef.current.value = ""
             setTeams([""])
@@ -35,52 +41,7 @@ const EditTaskForm = ({ task }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, isDelSuccess, navigate])
 
-    // Teams Button Handle 
-    const onHandleAddTeams = (e) => {
-        e.preventDefault();
-        let newTeams = ""
-        setTeams([...Teams, newTeams])
-    }
-    const onHandleChangeTeams = (index, value) => {
-        let teams_data = [...Teams]
-        teams_data[index] = value
-        setTeams(teams_data)
-    }
-
-    const onHandleDeleteTeams = (e, index) => {
-        e.preventDefault()
-        let teams_data = [...Teams]
-        teams_data.splice(index, 1)
-        if (teams_data?.length === 0) teams_data = [""]
-        setTeams(teams_data)
-    }
-
-    // Skills Button Handle 
-    const onHandleAddSkills = (e) => {
-        e.preventDefault();
-        let newSkills = ""
-        setSkills([...Skills, newSkills])
-    }
-    const onHandleChangeSkills = (index, value) => {
-        let skills_data = [...Skills]
-        skills_data[index] = value
-        setSkills(skills_data)
-    }
-
-    const onHandleDeleteSkills = (e, index) => {
-        e.preventDefault()
-        let skills_data = [...Skills]
-        skills_data.splice(index, 1)
-        if (skills_data.length === 0) skills_data = [""]
-        setSkills(skills_data)
-    }
-
     // CheckLists Button Handle 
-    const onHandleAddCheckLists = (e) => {
-        e.preventDefault();
-        let newCheckLists = { check: false, subtask: "" }
-        setCheckLists([...CheckLists, newCheckLists])
-    }
     const onHandleChangeCheckLists = (index, event) => {
         let checkLists_data = [...CheckLists]
         let {check,subtask} = checkLists_data[index]
@@ -110,20 +71,20 @@ const EditTaskForm = ({ task }) => {
 
     const onSaveClicked = async (e) => {
         e.preventDefault()
-        const cansave = !!projectnameRef.current.value?.trim() && !!tasknameRef.current.value?.trim() && !isLoading
+        const cansave = !!Projects && !!tasknameRef.current.value?.trim() && !isLoading 
         if (cansave) {
-            const NewTask = {
+            const UpdateTask = {
                 id,
-                projectname: projectnameRef.current.value?.trim(),
+                project: Projects,
                 taskname: tasknameRef.current.value?.trim(),
                 description: descriptionRef.current.value?.trim(),
                 teams: Teams.filter(e => !!(e?.trim())),
                 skills: Skills.filter(e => !!(e?.trim())),
                 checklists: CheckLists.filter(e => !!(e.subtask?.trim())),
                 complete,
-                activity:`${username} update task `
+                activity:{username:userid,action:`update task `}
             }
-            await updateTask({ ...NewTask })
+            await updateTask({ ...UpdateTask })
         } else {
             setErrmsg("* Field Required")
         }
@@ -135,18 +96,46 @@ const EditTaskForm = ({ task }) => {
             await deleteTask({ id })
         }
     }
+    useEffect(()=>{
+        const onHandleAddCheckLists = () => {
+        let newCheckLists = { check: false, subtask: "" }
+        setCheckLists([...CheckLists, newCheckLists])
+        }
+
+        if(CheckLists.at(-1)["subtask"]){
+            onHandleAddCheckLists()
+        }
+    },[CheckLists])
 
     useEffect(() => { setErrmsg(error?.data?.message || delError?.data?.message) }, [isError, isDelError, error, delError])
-
-    return (<div>
+    let content
+    if(isProjectSuccess&&isSkillSuccess&&isTeamSuccess){
+        if(isProjectSuccess&&isSkillSuccess&&isTeamSuccess){
+            const skillsOption = all_skills.ids.map(e=>{
+                return{value:e,label:all_skills.entities[e].skillname}
+            })
+            const projectsOption = all_projects.ids.map(e=>{
+                return{value:e,label:all_projects.entities[e].projectname}
+            })
+            const teamsOption = all_teams.ids.map(e=>{
+                return{value:e,label:all_teams.entities[e].teamname}
+            })
+            if(!Projects) setProjects(project._id)
+    content= (<div>
         <p className={errmsg ? "onscreen" : "offscreen"}>{errmsg}</p>
-        <div className={`task__card`}>
-
+        <div className={`task__card__edit`}>
             <div>
                 <div className="task__project">
                     <div className="task__project__layout">
-                        <label htmlFor="task__project">Project* :</label>
-                        <input id="task__project" className="Text__box" type="text" ref={projectnameRef} defaultValue={projects} />
+                    <div>Project* :</div>
+                    <div>
+                      <Select 
+                options={projectsOption}
+                onChange={e=>setProjects(e.value)}
+                className="dropdown"
+                defaultValue={{value:project._id,label:project.projectname}}
+                />  
+                    </div>
 
                         <label htmlFor="task__task" className="task__task">Task* :</label>
                         <input id="task__task" className="Text__box" type="text" ref={tasknameRef} defaultValue={taskname} />
@@ -162,7 +151,7 @@ const EditTaskForm = ({ task }) => {
                 </div>
                 <div className="task__checklists">
                     <div>
-                        Checklists :<button onClick={e => onHandleAddCheckLists(e)} className="Add__button">Add</button>
+                        Checklists :
                         <div className="card__space">
                             {CheckLists.map((input, index) => {
                                 return (
@@ -189,50 +178,45 @@ const EditTaskForm = ({ task }) => {
 
             </div>
             <div>
-                <div className="task__teams">
-                    <div>
-                        <span>Teams <button onClick={e => onHandleAddTeams(e)} className="Add__button">Add</button></span>
-                    </div>
-                    <div className="teams__element">
-                        {Teams.map((input, index) => {
-                            return (
-                                <div key={index} className="teams__input">
-                                    <input
-                                        type="text"
-                                        name="Teams"
-                                        placeholder="Input Teams"
-                                        value={input}
-                                        onChange={event => onHandleChangeTeams(index, event.target.value)}
-                                    />
-                                    <button onClick={e => onHandleDeleteTeams(e, index)}>X</button>
-                                </div>)
-                        })}
-
-                    </div>
-                </div>
+            <div className="task__teams">
+            <div>
+                <span>Teams</span>
+            </div>
+            <Select 
+                options={teamsOption}
+                isMulti
+                onChange={e=>setTeams(e.map(ele=>ele.value))}
+                defaultValue={teams.map(e=>{
+                    return {value:e._id,label:e.teamname}
+                })}
+                className="task__teams__dropdown dropdown"
+                />
+                
+        </div>
 
 
-                <div className="task__skills">
-                    <div>
-                        <span>required skill <button onClick={e => onHandleAddSkills(e)} className="Add__button">Add</button></span>
-                    </div>
+        <div className="task__skills">
+            <div>
+            <span>required skill</span>    
+            </div>
+            
+            <Select 
+                options={skillsOption}
+                isMulti
+                styles={{
+                    indicatorsContainer:base=>({
+                        ...base,
+                        padding:0
+                    }),
 
-                    <div className="skills__element">
-                        {Skills.map((input, index) => {
-                            return (
-                                <div key={index} className="skills__input">
-                                    <input
-                                        type="text"
-                                        name="Skills"
-                                        placeholder="Input Skills"
-                                        value={input}
-                                        onChange={event => onHandleChangeSkills(index, event.target.value)}
-                                    />
-                                    <button onClick={e => onHandleDeleteSkills(e, index)}>X</button>
-                                </div>)
-                        })}
-                    </div>
-                </div>
+                }}
+                defaultValue={skills.map(e=>{
+                    return {value:e._id,label:e.skillname}
+                })}
+                onChange={e=>setSkills(e.map(ele=>ele.value))}
+                className="task__skills__dropdown dropdown"
+                />
+        </div>
 
 
 
@@ -243,7 +227,9 @@ const EditTaskForm = ({ task }) => {
     </div>
 
 
-    );
+    );}
+    return content
+}
 }
 
 export default EditTaskForm;

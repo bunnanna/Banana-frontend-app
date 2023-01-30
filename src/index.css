@@ -15,8 +15,7 @@ body {
 }
 a{
   text-decoration: none;
-  font-size: 2vw;
-  color: rgb(0, 34, 255);
+  color: aliceblue;
 }
 button{
   background-color: #fff;
@@ -164,6 +163,18 @@ h2{
   display: grid;
   grid-template-columns: 70% 30%;
 }
+.task__card__edit{
+  background-color: aliceblue;
+  border-style: solid;
+  border-left-width: 1vh;
+  border-radius: 0 2vw 2vw 0;
+  border-color: black;
+  color: black;
+  padding: 2vh;
+  margin: 2vh 0 2vh 0;
+  display: block;
+}
+
 .task__card>*{
   margin: 2vh;
   margin-left: 0;
@@ -187,8 +198,7 @@ h2{
   font-size: 2.5vw;
 }
 .task__project__layout{
-  display: grid;
-  grid-template-columns: 30% 65%;
+  display: block
 }
 .task__task{
   font-size: 2.5vh;
@@ -201,6 +211,10 @@ h2{
   margin: 0 0 0 1vh;
   padding: 0;
 }
+.task__skills__dropdown ,.task__teams__dropdown{
+  font-size: 1vw;
+}
+
 
 .teams__input input,.skills__element input,.task__checklists__element.subtask__input{
   width: 10vw;
@@ -247,4 +261,42 @@ h2{
   top: 10vh;
   display: grid;
   grid-template-columns: 30% 70%;
-}
+  grid-gap: 20px;
+  }
+  
+  .user__profile__col{
+  display: flex;
+  flex-direction: column;
+  }
+  
+  .user__username {
+  font-size: 22px;
+  font-weight: bold;
+  }
+  
+  .user__active {
+  font-size: 18px;
+  font-weight: bold;
+  }
+  
+  .user__role-title,
+  .user__team-title,
+  .user__skill-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+  }
+  
+  .user__role-list,
+  .user__team-list,
+  .user__skill-list {
+  font-size: 16px;
+  margin-top: 10px;
+  padding-left: 20px;
+  }
+  
+  .user__role-list li,
+  .user__team-list li,
+  .user__skill-list li {
+  margin-bottom: 10px;
+  }

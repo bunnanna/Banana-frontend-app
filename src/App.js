@@ -14,6 +14,7 @@ import Signin from "./features/auth/Signin";
 import PersistLogin from "./features/auth/PersistLogin";
 import UserPage from "./features/users/UserPage";
 import PrefetchA from "./features/auth/PrefetchA";
+import ProjectsList from "./features/projects/ProjectList";
 
 function App() {
   return (
@@ -35,6 +36,9 @@ function App() {
               <Route index element={<TaskComponent/>}/>
               <Route path="edit" element={<EditTask/>}/>
             </Route>
+          </Route>
+          <Route path="project" element={<OutletLayout/>}>
+          <Route index element={<ProjectsList/>}/>
           </Route>
         </Route>
         <Route path="user" element={<OutletLayout/>}>

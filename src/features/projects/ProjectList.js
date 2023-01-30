@@ -1,15 +1,16 @@
-import { useGetTasksQuery } from "./tasksApiSlice";
+import { useGetProjectsQuery } from "./projectsApiSlice";
 import { Link } from "react-router-dom";
-import MiniTask from "./MiniTask";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import ProjectCard from "./ProjectCard";
 
-const JobsList = () => {
+const ProjectsList = () => {
     // const {pathname} = useLocation()
-    // const JOBSLIST_REGEX = /^\/main\/joblist\/?$/
-    const {data:tasks,
+    // const PROJECTSLIST_REGEX = /^\/main\/projectlist\/?$/
+    const {data:projects,
         isLoading,isSuccess,isError,error
-    }=useGetTasksQuery("tasksList",{
+    }=useGetProjectsQuery("projectsList",{
         pollingInterval:60*1000,
         refetchOnFocus:true,
         refetchOnMountOrArgChange:true})
@@ -17,18 +18,18 @@ const JobsList = () => {
     if(isLoading){content=<p>Loading</p>}
     if(isError){content = <p>Something went wrong {error?.data?.message}</p>}
     if (isSuccess){
-        const {ids} = tasks
-        const jobCardList = ids?.length && ids.map(taskId=><MiniTask key={taskId} taskId={taskId}/>)
+        const {ids} = projects
+        const projectCardList = ids?.length && ids.map(projectId=><ProjectCard key={projectId} projectId={projectId}/>)
         content =(<>
             <div className="title__menu">
-                jobList
-                <Link to="/main/joblist/new" > <FontAwesomeIcon icon={faFileCirclePlus}/> </Link>
+                projectList
+                <Link to="/main/projectlist/new" > <FontAwesomeIcon icon={faFileCirclePlus}/> </Link>
             </div>
-            {jobCardList}
+            {projectCardList}
             </>)
         
     }
     return content
 
 }
-export default JobsList
+export default ProjectsList

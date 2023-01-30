@@ -6,6 +6,10 @@ const Menu = () => {
        <div className="title__menu">Menu</div>
        <div>
         <Link to="joblist">・JOB List</Link>
+        
+       </div>
+       <div>
+       <Link to="project">・New Project</Link>
        </div>
     </div></> );
 }
