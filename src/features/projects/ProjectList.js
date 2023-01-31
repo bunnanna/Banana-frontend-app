@@ -19,11 +19,11 @@ const ProjectsList = () => {
     if(isError){content = <p>Something went wrong {error?.data?.message}</p>}
     if (isSuccess){
         const {ids} = projects
-        const projectCardList = ids?.length && ids.map(projectId=><ProjectCard key={projectId} projectId={projectId}/>)
+        const projectCardList = ids?.length && ids?.map(projectId=><ProjectCard key={projectId} projectId={projectId}/>)
         content =(<>
             <div className="title__menu">
                 projectList
-                <Link to="/main/projectlist/new" > <FontAwesomeIcon icon={faFileCirclePlus}/> </Link>
+                <Link to="/main/project/new" > <FontAwesomeIcon icon={faFileCirclePlus}/> </Link>
             </div>
             {projectCardList}
             </>)

@@ -1,17 +1,17 @@
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Menu = () => {
-    return ( <>        
-    <div className="menu">
-       <div className="title__menu">Menu</div>
-       <div>
-        <Link to="joblist">・JOB List</Link>
-        
-       </div>
-       <div>
-       <Link to="project">・New Project</Link>
-       </div>
-    </div></> );
+    return ( <Card className="menu">        
+    <Card.Header className="title__menu">Menu</Card.Header>
+    <Card.Body className="p-0">
+       <Card.Text className="m-0">
+        <Link to="joblist" >・JOB List</Link>
+       </Card.Text>
+       <Card.Text>
+       <Link to="project">・Project</Link>
+       </Card.Text>
+    </Card.Body></Card> );
 }
  
 export default Menu;
