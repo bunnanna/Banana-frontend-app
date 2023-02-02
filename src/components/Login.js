@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Button, Card, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../features/auth/authApiSlice";
@@ -55,25 +56,25 @@ const Login = () => {
 
     if(isLoading)return <p>Loading...</p>
     return (
-        <div>
-            <h1>Login</h1>
+        <Card>
+            <Card.Header>Login</Card.Header>
             <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
-            <div className="login__layout">
-                <div className="login__form">
-                    <label htmlFor="username">Username</label>
-                    <input type="text" className="login__input" name="username" ref={userRef} value={username} onChange={onUsernameChange} />
+            <Card.Body className>
+                <Form.Group className>
+                    <Form.Label htmlFor="username">Username</Form.Label>
+                    <Form.Control type="text"  name="username" ref={userRef} value={username} onChange={onUsernameChange} />
 
-                    <label htmlFor="password">Password</label>
-                    <input type="password" className="login__input" name="password" value={password} onChange={onPasswordChange} />
-                </div>
-                <div>
-                    <button onClick={handleLogin} className="login__button">Login</button>
-                    <button onClick={handleSignin} className="login__button">Sign in</button>
-                </div>
+                    <Form.Label htmlFor="password">Password</Form.Label>
+                    <Form.Control type="password"  name="password" value={password} onChange={onPasswordChange} />
+                </Form.Group>
+                <Form.Group className>
+                    <Button onClick={handleLogin} className="m-2">Login</Button>
+                    <Button onClick={handleSignin} className="m-2">Sign in</Button>
+                </Form.Group>
 
-            </div>
+            </Card.Body>
 
-        </div>
+        </Card>
     );
 }
 

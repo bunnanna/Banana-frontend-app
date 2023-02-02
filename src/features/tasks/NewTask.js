@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { Button, Card, Col, Container, Form, FormGroup, FormLabel, InputGroup, ListGroup, Row } from "react-bootstrap";
+import CardHeader from "react-bootstrap/esm/CardHeader";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { dropDownStyle } from "../../hooks/dropDownStyle";
 import { useGetProjectsQuery } from "../projects/projectsApiSlice";
 import { useGetSkillsQuery } from "../skills/skillsApiSlice";
 import { useGetTeamsQuery } from "../teams/teamsApiSlice";
+import CheckList from "./CheckList";
 import { useAddNewTaskMutation } from "./tasksApiSlice";
 
 const NewTask = () => {
@@ -12,13 +16,13 @@ const NewTask = () => {
 
     const navigate = useNavigate()
 
-    const [Teams, setTeams] = useState([""])
+    const [Teams, setTeams] = useState([])
 
     const [CheckLists, setCheckLists] = useState([{ check: false, subtask: "" }])
     const [Projects, setProjects] = useState([""])
     const tasknameRef = useRef("")
     const descriptionRef = useRef("")
-    const [Skills, setSkills] = useState([""])
+    const [Skills, setSkills] = useState([])
     const {data:skills,isSuccess:isSkillSuccess} = useGetSkillsQuery("skillsList")
     const {data:projects,isSuccess:isProjectSuccess} = useGetProjectsQuery("projectsList")
     const {data:teams,isSuccess:isTeamSuccess} = useGetTeamsQuery("teamsList")
@@ -108,99 +112,81 @@ const NewTask = () => {
         const teamsOption = teams.ids.map(e=>{
             return{value:e,label:teams.entities[e].teamname}
         })
-    content=(
-    <div>
-        <p className={errmsg?"onscreen":"offscreen"}>{errmsg}</p>
-        <div className={`task__card__edit`}>
-        <div>
-            <div className="task__project">
-                <div className="task__project__layout">
-                    <div>Project* :</div>
-                    <div>
-                      <Select 
-                options={projectsOption}
-                onChange={e=>setProjects(e.value)}
-                className="dropdown"
-                />  
-                    </div>
-                    
-                    
+    content=(<Card>
+        <p className={errmsg ? "onscreen" : "offscreen"}>{errmsg}</p>
+        <Form>
+            <CardHeader>
+                <FormGroup as={Row}>
+                    <FormLabel column sm={2}>Project* :</FormLabel>
+                    <Col sm={10}>
+                        <Select
+                            options={projectsOption}
+                            onChange={e => setProjects(e.value)}
+                            className="dropdown"
+                            styles={dropDownStyle(1)}
+                        />
+                    </Col>
+                </FormGroup>
+            </CardHeader>
+            <InputGroup className="p-2">
+                <InputGroup.Text>Task* :</InputGroup.Text>
+                <Form.Control type="text" ref={tasknameRef} className="w-auto" />
+            </InputGroup>
 
-                    <label htmlFor="task__task" className="task__task">Task* :</label>
-                    <input id="task__task" className="Text__box" type="text" ref={tasknameRef} />
-                </div>
-            </div>
-            <div className="task__description">
-                <div>
+            <InputGroup className="p-2">
+                <InputGroup.Text>
                     Descrition :
-                </div>
-                <div>
-                    <input type="text" className="task__description__input" ref={descriptionRef} />
-                </div>
-            </div>
-            <div className="task__checklists">
-            <div>
-                Checklists :
-                <div className="card__space">
+                </InputGroup.Text>
+                <Form.Control as="textarea" rows={3} ref={descriptionRef} />
+            </InputGroup>
+            <FormGroup className="p-2">
+                <Form.Label> Checklists :</Form.Label>
+                <ListGroup>
                     {CheckLists.map((input, index) => {
                         return (
-                            <div key={index} className="task__checklists__element">
-                                <button className="check__input" name="check" onClick={e => onHandleCheckMark(e, input, index)} value={input.check}> {input.check ? <span>✔</span> : <span>✕</span>}</button>
-                                <input
-                                    type="text"
-                                    name="subtask"
-                                    className="subtask__input"
-                                    placeholder="Input CheckLists"
-                                    value={input.subtask}
-                                    onChange={event => onHandleChangeCheckLists(index, event)}
-                                />
-                                <button onClick={e => onHandleDeleteCheckLists(e, index)}>X</button>
-                            </div>)
-                    })}
-                </div>
-            </div>
-            <div>
-                <button className="save__button" onClick={e=>onSaveClicked(e)}>Save</button>
-            </div>
-        </div>
+                            <CheckList key={index} prop={{input,index,onHandleCheckMark,onHandleChangeCheckLists,onHandleDeleteCheckLists}}/>
+                        )})}
+                </ListGroup>
+            </FormGroup>
+            <Button variant="primary" className="m-1" onClick={onSaveClicked}>Save</Button>
+            <Card.Footer as={Container}>
+                <Row md={2}>
+                    <FormGroup as={Col} className="d-flex flex-column align-items-center">
+                        <Form.Label>Teams</Form.Label>
+                        <Select
+                            options={teamsOption}
+                            isMulti
+                            onChange={e => setTeams(e.map(ele => ele.value))}
+                            className="task__teams__dropdown"
+                            styles={dropDownStyle(Teams.length)}
+                        />
 
-        </div>
-        <div>
-            <div className="task__teams">
-            <div>
-                <span>Teams</span>
-            </div>
-            <Select 
-                options={teamsOption}
-                isMulti
-                onChange={e=>setTeams(e.map(ele=>ele.value))}
-                className="task__teams__dropdown"
-                />
-                
-        </div>
+                    </FormGroup>
 
 
-        <div className="task__skills">
-            <div>
-            <span>required skill</span>    
-            </div>
-            
-            <Select 
-                options={skillsOption}
-                isMulti
-                onChange={e=>setSkills(e.map(ele=>ele.value))}
-                className="task__skills__dropdown"
-                />
-        </div>
+                    <FormGroup as={Col} className="d-flex flex-column align-items-center">
 
-        
-        
+                        <Form.Label>required Skills</Form.Label>
 
-        </div>
 
-    </div>
-    </div>
-    
+                        <Select
+                            options={skillsOption}
+                            isMulti
+                            styles={dropDownStyle(Skills.length)}
+                            onChange={e => setSkills(e.map(ele => ele.value))}
+                            className="task__skills__dropdown"
+                        />
+                    </FormGroup>
+
+
+
+
+                </Row>
+            </Card.Footer>
+        </Form>
+    </Card>
+
+
     );
                 }
     return content

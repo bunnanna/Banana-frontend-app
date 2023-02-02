@@ -29,9 +29,10 @@ code {
 .onscreen{
   display:contents;
 }
-.dropdown{
-  color: black;
+.container{
+  max-width: none;
 }
+
 /* HEADER */
 .page__header{
   display: flex;
@@ -64,15 +65,6 @@ code {
   align-items: center;
 }
 
-h1{
-  font-size: 5vw;
-  text-align: center;
-}
-
-h2{
-  font-size: 4vw;
-  text-align: center;
-}
 
 /* Login */
 .login__layout{

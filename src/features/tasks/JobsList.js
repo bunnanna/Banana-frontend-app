@@ -1,8 +1,8 @@
 import { useGetTasksQuery } from "./tasksApiSlice";
-import { Link } from "react-router-dom";
 import MiniTask from "./MiniTask";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { Card, Nav} from "react-bootstrap";
 
 const JobsList = () => {
     // const {pathname} = useLocation()
@@ -19,13 +19,19 @@ const JobsList = () => {
     if (isSuccess){
         const {ids} = tasks
         const jobCardList = ids?.length && ids.map(taskId=><MiniTask key={taskId} taskId={taskId}/>)
-        content =(<>
-            <div className="title__menu">
-                jobList
-                <Link to="/main/joblist/new" > <FontAwesomeIcon icon={faFileCirclePlus}/> </Link>
-            </div>
-            {jobCardList}
-            </>)
+        content =(<Card>
+            <Card.Header >
+                <Nav className="p-0 align-items-center justify-content-between">
+                <Nav.Item/>
+                <Nav.Item>JobList</Nav.Item>
+                <Nav.Link href="/main/joblist/new" > <FontAwesomeIcon icon={faFileCirclePlus}/> </Nav.Link>
+                </Nav>
+            </Card.Header>
+            <Card.Body>
+              {jobCardList}  
+            </Card.Body>
+            
+            </Card>)
         
     }
     return content

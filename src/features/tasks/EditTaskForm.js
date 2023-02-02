@@ -6,9 +6,14 @@ import Select from "react-select"
 import { useGetSkillsQuery } from "../skills/skillsApiSlice";
 import { useGetProjectsQuery } from "../projects/projectsApiSlice";
 import { useGetTeamsQuery } from "../teams/teamsApiSlice";
+import { Button, Card, Col, Container, Form, FormGroup, FormLabel, InputGroup, ListGroup, Row } from "react-bootstrap";
+import CardHeader from "react-bootstrap/esm/CardHeader";
+import { dropDownStyle } from "../../hooks/dropDownStyle";
+import CheckList from "./CheckList";
+import useDebounce from "../../hooks/useDebounce";
 const EditTaskForm = ({ task }) => {
 
-    const {id:userid} = useCurrentUser()
+    const { id: userid } = useCurrentUser()
 
     const [updateTask, { isLoading, isSuccess, isError, error }] = useUpdateTaskMutation()
     const [deleteTask, { isLoading: isDelLoading, isSuccess: isDelSuccess, isError: isDelError, error: delError }] = useDeleteTaskMutation()
@@ -20,13 +25,17 @@ const EditTaskForm = ({ task }) => {
     const [Projects, setProjects] = useState(project._id)
     const tasknameRef = useRef(taskname)
     const descriptionRef = useRef(description)
-    const [Skills, setSkills] = useState(skills.map(e=>e._id))
-    const [Teams, setTeams] = useState(teams.map(e=>e._id))
-    const {data:all_skills,isSuccess:isSkillSuccess} = useGetSkillsQuery("skillsList")
-    const {data:all_projects,isSuccess:isProjectSuccess} = useGetProjectsQuery("projectsList")
-    const {data:all_teams,isSuccess:isTeamSuccess} = useGetTeamsQuery("teamsList")
+    const [Skills, setSkills] = useState(skills.map(e => e._id))
+    const [Teams, setTeams] = useState(teams.map(e => e._id))
+    const { data: all_skills, isSuccess: isSkillSuccess } = useGetSkillsQuery("skillsList")
+    const { data: all_projects, isSuccess: isProjectSuccess } = useGetProjectsQuery("projectsList")
+    const { data: all_teams, isSuccess: isTeamSuccess } = useGetTeamsQuery("teamsList")
 
+    const debouncedCheckLists = useDebounce(CheckLists, 100);
 
+    useEffect(() => {
+        // eslint-disable-next-line
+    }, [debouncedCheckLists]);
     useEffect(() => {
         if (isSuccess || isDelSuccess) {
             setProjects("")
@@ -44,9 +53,9 @@ const EditTaskForm = ({ task }) => {
     // CheckLists Button Handle 
     const onHandleChangeCheckLists = (index, event) => {
         let checkLists_data = [...CheckLists]
-        let {check,subtask} = checkLists_data[index]
+        let { check, subtask } = checkLists_data[index]
         subtask = event.target.value
-        checkLists_data[index]={check,subtask}
+        checkLists_data[index] = { check, subtask }
         setCheckLists(checkLists_data)
     }
 
@@ -61,9 +70,9 @@ const EditTaskForm = ({ task }) => {
     const onHandleCheckMark = (e, input, index) => {
         e.preventDefault()
         let checkLists_data = [...CheckLists]
-        let {check,subtask} = checkLists_data[index]
+        let { check, subtask } = checkLists_data[index]
         check = !input.check
-        checkLists_data[index] = {check,subtask}
+        checkLists_data[index] = { check, subtask }
         setCheckLists(checkLists_data)
     }
 
@@ -71,7 +80,7 @@ const EditTaskForm = ({ task }) => {
 
     const onSaveClicked = async (e) => {
         e.preventDefault()
-        const cansave = !!Projects && !!tasknameRef.current.value?.trim() && !isLoading 
+        const cansave = !!Projects && !!tasknameRef.current.value?.trim() && !isLoading
         if (cansave) {
             const UpdateTask = {
                 id,
@@ -82,7 +91,7 @@ const EditTaskForm = ({ task }) => {
                 skills: Skills.filter(e => !!(e?.trim())),
                 checklists: CheckLists.filter(e => !!(e.subtask?.trim())),
                 complete,
-                activity:{username:userid,action:`update task `}
+                activity: { username: userid, action: `update task ` }
             }
             await updateTask({ ...UpdateTask })
         } else {
@@ -96,140 +105,115 @@ const EditTaskForm = ({ task }) => {
             await deleteTask({ id })
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         const onHandleAddCheckLists = () => {
-        let newCheckLists = { check: false, subtask: "" }
-        setCheckLists([...CheckLists, newCheckLists])
+            let newCheckLists = { check: false, subtask: "" }
+            setCheckLists([...CheckLists, newCheckLists])
         }
 
-        if(CheckLists.at(-1)["subtask"]){
+        if (CheckLists.at(-1)["subtask"]) {
             onHandleAddCheckLists()
         }
-    },[CheckLists])
+
+    }, [CheckLists])
 
     useEffect(() => { setErrmsg(error?.data?.message || delError?.data?.message) }, [isError, isDelError, error, delError])
     let content
-    if(isProjectSuccess&&isSkillSuccess&&isTeamSuccess){
-        if(isProjectSuccess&&isSkillSuccess&&isTeamSuccess){
-            const skillsOption = all_skills.ids.map(e=>{
-                return{value:e,label:all_skills.entities[e].skillname}
+    if (isProjectSuccess && isSkillSuccess && isTeamSuccess) {
+        if (isProjectSuccess && isSkillSuccess && isTeamSuccess) {
+            const skillsOption = all_skills.ids.map(e => {
+                return { value: e, label: all_skills.entities[e].skillname }
             })
-            const projectsOption = all_projects.ids.map(e=>{
-                return{value:e,label:all_projects.entities[e].projectname}
+            const projectsOption = all_projects.ids.map(e => {
+                return { value: e, label: all_projects.entities[e].projectname }
             })
-            const teamsOption = all_teams.ids.map(e=>{
-                return{value:e,label:all_teams.entities[e].teamname}
+            const teamsOption = all_teams.ids.map(e => {
+                return { value: e, label: all_teams.entities[e].teamname }
             })
-            if(!Projects) setProjects(project._id)
-    content= (<div>
-        <p className={errmsg ? "onscreen" : "offscreen"}>{errmsg}</p>
-        <div className={`task__card__edit`}>
-            <div>
-                <div className="task__project">
-                    <div className="task__project__layout">
-                    <div>Project* :</div>
-                    <div>
-                      <Select 
-                options={projectsOption}
-                onChange={e=>setProjects(e.value)}
-                className="dropdown"
-                defaultValue={{value:project._id,label:project.projectname}}
-                />  
-                    </div>
+            if (!Projects) setProjects(project._id)
+            content = (<Card>
+                <p className={errmsg ? "onscreen" : "offscreen"}>{errmsg}</p>
+                <Form>
+                    <CardHeader>
+                        <FormGroup as={Row}>
+                            <FormLabel column sm={2}>Project* :</FormLabel>
+                            <Col sm={10}>
+                                <Select
+                                    options={projectsOption}
+                                    onChange={e => setProjects(e.value)}
+                                    className="dropdown"
+                                    styles={dropDownStyle(1)}
+                                    defaultValue={{ value: project._id, label: project.projectname }}
+                                />
+                            </Col>
+                        </FormGroup>
+                    </CardHeader>
+                    <InputGroup className="p-2">
+                        <InputGroup.Text>Task* :</InputGroup.Text>
+                        <Form.Control type="text" ref={tasknameRef} defaultValue={taskname} className="w-auto" />
+                    </InputGroup>
 
-                        <label htmlFor="task__task" className="task__task">Task* :</label>
-                        <input id="task__task" className="Text__box" type="text" ref={tasknameRef} defaultValue={taskname} />
-                    </div>
-                </div>
-                <div className="task__description">
-                    <div>
-                        Descrition :
-                    </div>
-                    <div>
-                        <input type="text" ref={descriptionRef} defaultValue={description} />
-                    </div>
-                </div>
-                <div className="task__checklists">
-                    <div>
-                        Checklists :
-                        <div className="card__space">
+                    <InputGroup className="p-2">
+                        <InputGroup.Text>
+                            Descrition :
+                        </InputGroup.Text>
+                        <Form.Control as="textarea" rows={3} ref={descriptionRef} defaultValue={description} />
+                    </InputGroup>
+                    <FormGroup className="p-2">
+                        <Form.Label> Checklists :</Form.Label>
+                        <ListGroup>
                             {CheckLists.map((input, index) => {
                                 return (
-                                    <div key={index} className="task__checklists__element">
-                                        <button className="check__input" name="check" onClick={e => onHandleCheckMark(e, input, index)} value={input.check}> {input.check ? <span>✔</span> : <span>✕</span>}</button>
-                                        <input
-                                            type="text"
-                                            name="subtask"
-                                            className="subtask__input"
-                                            placeholder="Input CheckLists"
-                                            value={input.subtask}
-                                            onChange={event => onHandleChangeCheckLists(index, event)}
-                                        />
-                                        <button onClick={e => onHandleDeleteCheckLists(e, index)}>X</button>
-                                    </div>)
-                            })}
-                        </div>
-                    </div>
-                    <div>
-                        <button className="save__button" onClick={onSaveClicked}>Save</button>
-                        <button className="del__button" onClick={onDelClicked}>Delete</button>
-                    </div>
-                </div>
+                                    <CheckList key={index} prop={{input,index,onHandleCheckMark,onHandleChangeCheckLists,onHandleDeleteCheckLists}}/>
+                                )})}
+                        </ListGroup>
+                    </FormGroup>
+                    <Button variant="primary" className="m-1" onClick={onSaveClicked}>Save</Button>
+                    <Button variant="danger" className="m-1" onClick={onDelClicked}>Delete</Button>
+                    <Card.Footer as={Container}>
+                        <Row md={2}>
+                            <FormGroup as={Col} className="d-flex flex-column align-items-center">
+                                <Form.Label>Teams</Form.Label>
+                                <Select
+                                    options={teamsOption}
+                                    isMulti
+                                    onChange={e => setTeams(e.map(ele => ele.value))}
+                                    defaultValue={teams.map(e => {
+                                        return { value: e._id, label: e.teamname }
+                                    })}
+                                    className="task__teams__dropdown"
+                                    styles={dropDownStyle(teams.length)}
+                                />
 
-            </div>
-            <div>
-            <div className="task__teams">
-            <div>
-                <span>Teams</span>
-            </div>
-            <Select 
-                options={teamsOption}
-                isMulti
-                onChange={e=>setTeams(e.map(ele=>ele.value))}
-                defaultValue={teams.map(e=>{
-                    return {value:e._id,label:e.teamname}
-                })}
-                className="task__teams__dropdown dropdown"
-                />
-                
-        </div>
+                            </FormGroup>
 
 
-        <div className="task__skills">
-            <div>
-            <span>required skill</span>    
-            </div>
-            
-            <Select 
-                options={skillsOption}
-                isMulti
-                styles={{
-                    indicatorsContainer:base=>({
-                        ...base,
-                        padding:0
-                    }),
+                            <FormGroup as={Col} className="d-flex flex-column align-items-center">
 
-                }}
-                defaultValue={skills.map(e=>{
-                    return {value:e._id,label:e.skillname}
-                })}
-                onChange={e=>setSkills(e.map(ele=>ele.value))}
-                className="task__skills__dropdown dropdown"
-                />
-        </div>
+                                <Form.Label>required Skills</Form.Label>
 
 
+                                <Select
+                                    options={skillsOption}
+                                    isMulti
+                                    styles={dropDownStyle(teams.length)}
+                                    defaultValue={skills.map(e => {
+                                        return { value: e._id, label: e.skillname }
+                                    })}
+                                    onChange={e => setSkills(e.map(ele => ele.value))}
+                                    className="task__skills__dropdown"
+                                />
+                            </FormGroup>
+                        </Row>
+                    </Card.Footer>
+                </Form>
+            </Card>
 
 
-            </div>
-
-        </div>
-    </div>
-
-
-    );}
-    return content
-}
+            );
+        }
+        return content
+    }
 }
 
 export default EditTaskForm;

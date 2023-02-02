@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useSendLogoutMutation } from "../features/auth/authApiSlice";
 import useCurrentUser from "../hooks/useCurrentUser";
@@ -15,17 +16,19 @@ const Header = () => {
     }, [isSuccess, navigate])
 
     return ( 
-        <header className="header__content">
-            <div className="page__header">
+        <Container className="m-0 p-0" >
+        <Navbar expand="mg" bg="white">
+            <Navbar.Brand>
                 <Link to="/main"><span>Banana Job Card Apuri</span></Link> 
-        <nav>
-            <span><Link to="/user">{username}</Link></span>
-            <button onClick={sendLogout}>Log Out</button>
-            <button >1234</button>
-        </nav> 
-        
-            </div>
-        </header>   
+               </Navbar.Brand> 
+
+        <Nav className="d-flex flex-row ">
+            <Nav.Link href="/user" className="mx-2">{username}</Nav.Link>
+            <Nav.Item className="mx-2"><Button onClick={sendLogout}>Log Out</Button></Nav.Item>
+        </Nav> 
+            
+        </Navbar>   
+    </Container>
      );
 }
  

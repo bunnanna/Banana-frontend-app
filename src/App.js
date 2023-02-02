@@ -16,6 +16,8 @@ import UserPage from "./features/users/UserPage";
 import PrefetchA from "./features/auth/PrefetchA";
 import ProjectsList from "./features/projects/ProjectList";
 import NewProject from "./features/projects/NewProject";
+import TeamsList from "./features/teams/TeamsList";
+import NewTeam from "./features/teams/NewTeam";
 
 function App() {
   return (
@@ -45,7 +47,15 @@ function App() {
               <Route index element={<ProjectComponent/>}/>
               <Route path="edit" element={<EditProject/>}/>
             </Route> */}
-          </Route>
+            </Route>
+          <Route path="team" element={<OutletLayout/>}>
+          <Route index element={<TeamsList/>}/>
+          <Route path="new" element={<NewTeam/>}/>
+            {/* <Route path=":id" element={<OutletLayout/>}>
+              <Route index element={<ProjectComponent/>}/>
+              <Route path="edit" element={<EditProject/>}/>
+            </Route> */}
+          
         </Route>
         <Route path="user" element={<OutletLayout/>}>
           <Route index element={<UserPage/>}/>
@@ -54,6 +64,7 @@ function App() {
         </Route>
         </Route>
         </Route>
+      </Route>
       </Route>
     </Routes>
   );
