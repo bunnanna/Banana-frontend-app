@@ -11,13 +11,16 @@ import CardHeader from "react-bootstrap/esm/CardHeader";
 import { dropDownStyle } from "../../hooks/dropDownStyle";
 import CheckList from "./CheckList";
 import useDebounce from "../../hooks/useDebounce";
+import DateTimePicker from 'react-datetime-picker'
+
+
 const EditTaskForm = ({ task }) => {
 
     const { id: userid } = useCurrentUser()
 
     const [updateTask, { isLoading, isSuccess, isError, error }] = useUpdateTaskMutation()
     const [deleteTask, { isLoading: isDelLoading, isSuccess: isDelSuccess, isError: isDelError, error: delError }] = useDeleteTaskMutation()
-    const { id, project, taskname, teams, skills, description, checklists, complete } = task
+    const { id, project, taskname, teams, skills, description, checklists, complete, dateline } = task
 
     const navigate = useNavigate()
 
@@ -27,6 +30,7 @@ const EditTaskForm = ({ task }) => {
     const descriptionRef = useRef(description)
     const [Skills, setSkills] = useState(skills.map(e => e._id))
     const [Teams, setTeams] = useState(teams.map(e => e._id))
+    const [DateLine,setDateLine]=useState(new Date(dateline))
     const { data: all_skills, isSuccess: isSkillSuccess } = useGetSkillsQuery("skillsList")
     const { data: all_projects, isSuccess: isProjectSuccess } = useGetProjectsQuery("projectsList")
     const { data: all_teams, isSuccess: isTeamSuccess } = useGetTeamsQuery("teamsList")
@@ -91,6 +95,7 @@ const EditTaskForm = ({ task }) => {
                 skills: Skills.filter(e => !!(e?.trim())),
                 checklists: CheckLists.filter(e => !!(e.subtask?.trim())),
                 complete,
+                dateline:DateLine,
                 activity: { username: userid, action: `update task ` }
             }
             await updateTask({ ...UpdateTask })
@@ -168,10 +173,17 @@ const EditTaskForm = ({ task }) => {
                                 )})}
                         </ListGroup>
                     </FormGroup>
+                    <div>
+                      <DateTimePicker
+                                value={DateLine}
+                                onChange={e=> setDateLine(e)}
+                                />  
+                    </div>
+                    
                     <Button variant="primary" className="m-1" onClick={onSaveClicked}>Save</Button>
                     <Button variant="danger" className="m-1" onClick={onDelClicked}>Delete</Button>
                     <Card.Footer as={Container}>
-                        <Row md={2}>
+                        <Row md={3}>
                             <FormGroup as={Col} className="d-flex flex-column align-items-center">
                                 <Form.Label>Teams</Form.Label>
                                 <Select
@@ -204,6 +216,7 @@ const EditTaskForm = ({ task }) => {
                                     className="task__skills__dropdown"
                                 />
                             </FormGroup>
+                                
                         </Row>
                     </Card.Footer>
                 </Form>

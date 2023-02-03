@@ -18,6 +18,7 @@ import ProjectsList from "./features/projects/ProjectList";
 import NewProject from "./features/projects/NewProject";
 import TeamsList from "./features/teams/TeamsList";
 import NewTeam from "./features/teams/NewTeam";
+import EditProject from "./features/projects/EditProject";
 
 function App() {
   return (
@@ -43,10 +44,10 @@ function App() {
           <Route path="project" element={<OutletLayout/>}>
           <Route index element={<ProjectsList/>}/>
           <Route path="new" element={<NewProject/>}/>
-            {/* <Route path=":id" element={<OutletLayout/>}>
-              <Route index element={<ProjectComponent/>}/>
+            <Route path=":id" element={<OutletLayout/>}>
+              {/* <Route index element={<ProjectComponent/>}/> */}
               <Route path="edit" element={<EditProject/>}/>
-            </Route> */}
+            </Route>
             </Route>
           <Route path="team" element={<OutletLayout/>}>
           <Route index element={<TeamsList/>}/>
@@ -57,9 +58,11 @@ function App() {
             </Route> */}
           
         </Route>
+        </Route>
+
         <Route path="user" element={<OutletLayout/>}>
           <Route index element={<UserPage/>}/>
-        </Route>
+        
         </Route>
         </Route>
         </Route>

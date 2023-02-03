@@ -1,4 +1,4 @@
-import { useGetTasksQuery, useUpdatecheckTaskMutation } from "./tasksApiSlice";
+import { useGetTasksQuery, useUpdatecheckTaskMutation, useUpdateTaskMutation } from "./tasksApiSlice";
 import { memo, } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -14,6 +14,7 @@ const Task = ({ taskId }) => {
         })
     }, "tasksList")
     const [updatecheckTask] = useUpdatecheckTaskMutation()
+    const [updateTask] = useUpdateTaskMutation()
     const [CheckLists, setCheckLists] = useState(task?.checklists)
 
     const navigate = useNavigate()
@@ -37,10 +38,15 @@ const Task = ({ taskId }) => {
         e.target.check = !e.target.check
     }
     const onHandleEdit = () => navigate(`/main/joblist/${taskId}/edit`)
+    const onHandleSubmit = async (e) =>{ 
+        e.preventDefault()
+        await updateTask({id:taskId,status:"Submit"}) 
+    }
     if (task) {
         
-        const { project, taskname, teams, skills, description, activity } = task
-        
+        const { project, taskname, teams, skills, description, activity,dateline } = task
+        const DateLine = new Date(dateline)
+
     const activity_C = activity?.length>0 ?(<Accordion className="task_activity">
     <Accordion.Header>Activity</Accordion.Header>
 {activity.map((e, i) => <Accordion.Body className="p-1 " key={`activity ${i}`}>{e.username.username} {e.action}</Accordion.Body>)}
@@ -64,7 +70,12 @@ const Task = ({ taskId }) => {
                 <Card.Text>
                  {description}   
                 </Card.Text>
-
+                <Card.Title>
+                    DateLine :
+                </Card.Title>
+                <Card.Text>
+                    {DateLine.toLocaleString()}
+                </Card.Text>
                 <div>
                     Checklist :
                 </div>
@@ -99,8 +110,9 @@ const Task = ({ taskId }) => {
                     </Card.Text>
                 </CardGroup>
                 </Row>
-                <Button onClick={onHandleEdit}>Edit</Button>
-
+                <Button className="m-2" onClick={onHandleEdit}>Edit</Button>
+                <Button className="m-2" onClick={onHandleSubmit}>Submit</Button>
+                
 
             </Card.Footer>
 
