@@ -8,7 +8,7 @@ const ProjectsList = () => {
     // const {pathname} = useLocation()
     // const PROJECTSLIST_REGEX = /^\/main\/projectlist\/?$/
     const {data:projects,
-        isLoading,isSuccess,isError,error
+        isLoading,isError,error
     }=useGetProjectsQuery("projectsList",{
         pollingInterval:60*1000,
         refetchOnFocus:true,
@@ -16,15 +16,15 @@ const ProjectsList = () => {
     let content
     if(isLoading){content=<p>Loading</p>}
     if(isError){content = <p>Something went wrong {error?.data?.message}</p>}
-    if (isSuccess){
+    if (projects){
         const {ids} = projects
-        const projectCardList = ids?.length && ids?.map(projectId=><ProjectCard key={projectId} projectId={projectId}/>)
+        const projectCardList = ids?.map(projectId=><ProjectCard key={projectId} projectId={projectId}/>)
         content =(<Card>
             <Card.Header className="title__menu">
             <Nav className="p-0 align-items-center justify-content-between">
                 <Nav.Item/>
                 <Nav.Item> ProjectList</Nav.Item>
-                <Nav.Link to="/main/project/new" > <FontAwesomeIcon icon={faFileCirclePlus}/> </Nav.Link>
+                <Nav.Link href="/main/project/new" ><FontAwesomeIcon icon={faFileCirclePlus}/> </Nav.Link>
             </Nav>
             </Card.Header>
             {projectCardList}
