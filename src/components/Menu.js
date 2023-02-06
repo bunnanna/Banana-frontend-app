@@ -14,6 +14,12 @@ const Menu = () => {
             <Card.Text className="m-0">
                 <Link to="team">・Team</Link>
             </Card.Text>
+            <Card.Text className="m-0">
+                <Link to="approve">・Approve</Link>
+            </Card.Text>
+            <Card.Text className="m-0">
+                <Link to="complete">・Complete</Link>
+            </Card.Text>
         </Card.Body></Card>);
 }
 

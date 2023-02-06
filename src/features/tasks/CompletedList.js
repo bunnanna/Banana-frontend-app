@@ -6,13 +6,12 @@ import { Card, Nav} from "react-bootstrap";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import { useGetUsersQuery } from "../users/usersApiSlice";
 
-const JobsList = () => {
+const CompletedList = () => {
     // const {pathname} = useLocation()
-    // const JOBSLIST_REGEX = /^\/main\/joblist\/?$/
+    // const COMPLETEDLIST_REGEX = /^\/main\/joblist\/?$/
 
     const currentUser = useCurrentUser()
-    const {user
-    }=useGetUsersQuery({filter:{username:currentUser.username}},{
+    const {user}=useGetUsersQuery({filter:{username:currentUser.username}},{
         selectFromResult:({data})=>({
             user:data?.entities[data?.ids]
         })
@@ -20,7 +19,7 @@ const JobsList = () => {
 
     const {data:tasks,
         isLoading,isError,error
-    }=useGetTasksQuery({filter:{status:"assign",teams:{$in:user?.teams.map(e=>e?._id)}}},{
+    }=useGetTasksQuery({filter:{status:"Complete",teams:{$in:user?.teams.map(e=>e?._id)}}},{
         pollingInterval:60*1000,
         refetchOnFocus:true,
         refetchOnMountOrArgChange:true},"tasksList")
@@ -48,4 +47,4 @@ const JobsList = () => {
     return content
 
 }
-export default JobsList
+export default CompletedList

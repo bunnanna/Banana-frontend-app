@@ -1,14 +1,16 @@
-import React from 'react'
-import { useState } from 'react'
-import { Button, Card, Form } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
-import Select from 'react-select'
-import { dropDownStyle } from '../../hooks/dropDownStyle'
-import { useGetTeamsQuery } from './teamsApiSlice'
-import { useGetUsersQuery } from '../users/usersApiSlice'
-import { useAddNewTeamMutation } from './teamsApiSlice'
+import { useState } from "react"
+import { Button, Card, Form } from "react-bootstrap"
+import { useNavigate } from "react-router-dom"
+import Select from "react-select"
+import { dropDownStyle } from "../../hooks/dropDownStyle"
+import { useGetTeamsQuery } from "./teamsApiSlice"
+import { useGetUsersQuery } from "../users/usersApiSlice"
+import { useDeleteTeamMutation, useUpdateTeamMutation } from "./teamsApiSlice"
 
-function NewTeam() {
+
+export default function EditTeamForm({team}) {
+    const {id,teamname,manager,member} = team
+
     const { data: users,
     } = useGetUsersQuery("usersList", {
         refetchOnFocus: true,
@@ -19,28 +21,35 @@ function NewTeam() {
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
     })
-    const [addteam,{isLoading}] = useAddNewTeamMutation()
+    const [updateteam,{isLoading:isUpdateLoading}] = useUpdateTeamMutation()
+    const [deleteteam]= useDeleteTeamMutation()
 
-    const [Team,setTeam] = useState()
-    const [Manager,setManager] = useState()
-    const [Member, setMember] = useState([])
+    const [Team,setTeam] = useState(teamname)
+    const [Manager,setManager] = useState(manager)
+    const [Member, setMember] = useState(member)
+
 
     const navigate = useNavigate()
 
     const onHandleSave = async (e)=>{
         e.preventDefault()
         if(Team&&Manager&&Member){
-            const team = {teamname:Team,manager:Manager,member:Member}
-        await addteam({...team})
+            const team = { id, teamname:Team,manager:Manager,member:Member}
+        await updateteam({...team})
         navigate("/main/team")
         }else{
             console.log("fill");
         }
     
     }
+    const onHandleDelete= async (e)=>{
+        e.preventDefault()
+        await deleteteam({id})
+        navigate("/main/team")
+    }
 
     let content
-    if (isLoading ) return <p>Loading...</p>
+    if (isUpdateLoading) return <p>Loading...</p>
     if (teams&&users) {
         const usersOption = users.ids.map(e => {
             return { value: e, label: users.entities[e].username }
@@ -55,6 +64,7 @@ function NewTeam() {
                             required
                             type='text'
                             onChange={e=>setTeam(e.target.value)}
+                            value={Team}
                         />
                     </Form.Group> </Card.Title>
                     <Card.Subtitle className="mb-2 text-muted"><Form.Group>
@@ -64,6 +74,7 @@ function NewTeam() {
                             onChange={e=>setManager(e.value)}
                             className="dropdown"
                             styles={dropDownStyle(1.5)}
+                            defaultValue= { {value: Manager._id, label: Manager.username} }
                         />
                     </Form.Group> </Card.Subtitle>
 
@@ -75,9 +86,13 @@ function NewTeam() {
                             isMulti
                             className="dropdown"
                             styles={dropDownStyle(1)}
+                            defaultValue={Member.map(e => {
+                                return { value: e._id, label: e.username }
+                            })}
                         />
                     </Form.Group>
                     <Button className='m-1' onClick={onHandleSave}>Save</Button>
+                    <Button className='m-1' onClick={onHandleDelete} variant="danger">Delete</Button>
                 </Card.Body>
             </Card></Form>
         )
@@ -85,4 +100,4 @@ function NewTeam() {
     return content
 }
 
-export default NewTeam
+

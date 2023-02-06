@@ -19,6 +19,10 @@ import NewProject from "./features/projects/NewProject";
 import TeamsList from "./features/teams/TeamsList";
 import NewTeam from "./features/teams/NewTeam";
 import EditProject from "./features/projects/EditProject";
+import EditTeam from "./features/teams/EditTeam";
+import ApprovedList from "./features/tasks/ApprovedList";
+import CompletedList from "./features/tasks/CompletedList";
+import MainIndex from "./components/MainIndex";
 
 function App() {
   return (
@@ -33,6 +37,7 @@ function App() {
         <Route element={<Prefetch/>}>
         <Route element={<RequireAuth allowedRoles={["Employee"]}/>}>
         <Route path="main" element={<MainPage/>}>
+          <Route index element={<MainIndex/>}/>
           <Route path="joblist" element={<OutletLayout/>}>
             <Route index element={<JobsList/>}/>
             <Route path="new" element={<NewTask/>}/>
@@ -52,11 +57,16 @@ function App() {
           <Route path="team" element={<OutletLayout/>}>
           <Route index element={<TeamsList/>}/>
           <Route path="new" element={<NewTeam/>}/>
-            {/* <Route path=":id" element={<OutletLayout/>}>
-              <Route index element={<ProjectComponent/>}/>
-              <Route path="edit" element={<EditProject/>}/>
-            </Route> */}
-          
+            <Route path=":id" element={<OutletLayout/>}>
+              {/* <Route index element={<ProjectComponent/>}/> */}
+              <Route path="edit" element={<EditTeam/>}/>
+            </Route>
+        </Route>
+        <Route path="approve" element={<OutletLayout/>}>
+            <Route index element={<ApprovedList/>}/>
+        </Route>
+        <Route path="complete" element={<OutletLayout/>}>
+            <Route index element={<CompletedList/>}/>
         </Route>
         </Route>
 

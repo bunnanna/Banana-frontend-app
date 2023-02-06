@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import useDebounce from "../../hooks/useDebounce";
 import { Accordion, Badge, Button, Card, CardGroup, Container, Form, Row } from "react-bootstrap";
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 const Task = ({ taskId }) => {
     const { task } = useGetTasksQuery({ filter: { _id: taskId } }, {
@@ -28,6 +29,8 @@ const Task = ({ taskId }) => {
         // eslint-disable-next-line
     }, [debouncedCheckLists]);
 
+    const currentUser = useCurrentUser()
+
     const onHandleCheckMark = (e, input, index) => {
         e.preventDefault()
         let checkLists_data = [...CheckLists]
@@ -38,25 +41,36 @@ const Task = ({ taskId }) => {
         e.target.check = !e.target.check
     }
     const onHandleEdit = () => navigate(`/main/joblist/${taskId}/edit`)
-    const onHandleSubmit = async (e) =>{ 
+    const onHandleSubmit = async (e,status) =>{ 
         e.preventDefault()
-        await updateTask({id:taskId,status:"Submit"}) 
+        await updateTask({id:taskId,status,activity:{username:currentUser.id,action:`${status} This Task`}}) 
+        navigate("/main/joblist")
     }
+    const onHandleComplete = async (e,status) =>{ 
+        e.preventDefault()
+        await updateTask({id:taskId,status,activity:{username:currentUser.id,action:`${status} This Task`},complete:true}) 
+        navigate("/main/joblist")
+    }
+
+
     if (task) {
         
-        const { project, taskname, teams, skills, description, activity,dateline } = task
+        const { project, taskname, teams, skills, description, activity,dateline,status } = task
         const DateLine = new Date(dateline)
+        let next_button
+        if(status==="assign") next_button = <Button className="m-2" onClick={e=>onHandleSubmit(e,"Submitted")}>Submit</Button>
+        if(status==="Submitted") next_button = <Button className="m-2" onClick={e=>onHandleComplete(e,"Complete")}>Approve</Button>
 
     const activity_C = activity?.length>0 ?(<Accordion className="task_activity">
     <Accordion.Header>Activity</Accordion.Header>
-{activity.map((e, i) => <Accordion.Body className="p-1 " key={`activity ${i}`}>{e.username.username} {e.action}</Accordion.Body>)}
+{activity.map((e, i) => <Accordion.Body className="p-0 m-1" key={`activity ${i}`}>{e?.username?.username} {e?.action}</Accordion.Body>)}
 </Accordion>) : null
 
 
         return (<Card className={`m-2`}>
 
             <Card.Header className="task__project">
-                {project.projectname}
+                {project.projectname} {`Status:${status}`}
             </Card.Header>
             
 
@@ -111,7 +125,7 @@ const Task = ({ taskId }) => {
                 </CardGroup>
                 </Row>
                 <Button className="m-2" onClick={onHandleEdit}>Edit</Button>
-                <Button className="m-2" onClick={onHandleSubmit}>Submit</Button>
+                {next_button}
                 
 
             </Card.Footer>

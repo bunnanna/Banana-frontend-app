@@ -1,4 +1,4 @@
-import { Card, Col, Container, ListGroup, ListGroupItem, Row } from "react-bootstrap";
+import { Badge, Card, CardGroup, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useGetTasksQuery } from "./tasksApiSlice";
 
@@ -25,16 +25,20 @@ const MiniTask = ({ taskId }) => {
                     <Container>
                         <Row md={2} xs={1}>
                             <Col>
-                            <ListGroup as="ul" className="m-2">
-                                <ListGroupItem active>teams :</ListGroupItem> 
-                                    {teams.map(e => <ListGroupItem key={e.teamname}>{e.teamname}</ListGroupItem>)}
-                            </ListGroup>
+                            <CardGroup className="d-flex flex-column align-items-center">
+                    <Card.Title>Teams :</Card.Title> 
+                    <Card.Text>
+                        {teams.map(e => <Badge bg="dark" className="m-1" key={e.teamname}>{e.teamname}</Badge>)}
+                    </Card.Text>
+                </CardGroup>
                             </Col>
                             <Col>
-                            <ListGroup as="ul" className="m-2" >
-                            <ListGroupItem active>required skill :</ListGroupItem>
-                                    {skills.map(e => <ListGroupItem key={e.skillname}>{e.skillname}</ListGroupItem>)}
-                            </ListGroup>
+                            <CardGroup className="d-flex flex-column align-items-center">
+                    <Card.Title>required skill :</Card.Title> 
+                    <Card.Text>
+                        {skills.map(e => <Badge bg="dark" className="m-1" key={e.skillname}>{e.skillname}</Badge>)}
+                    </Card.Text>
+                </CardGroup>
                             </Col>
                         </Row>
                     </Container>

@@ -59,15 +59,15 @@ const Login = () => {
         <Card>
             <Card.Header>Login</Card.Header>
             <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
-            <Card.Body className>
-                <Form.Group className>
+            <Card.Body >
+                <Form.Group>
                     <Form.Label htmlFor="username">Username</Form.Label>
                     <Form.Control type="text"  name="username" ref={userRef} value={username} onChange={onUsernameChange} />
 
                     <Form.Label htmlFor="password">Password</Form.Label>
                     <Form.Control type="password"  name="password" value={password} onChange={onPasswordChange} />
                 </Form.Group>
-                <Form.Group className>
+                <Form.Group>
                     <Button onClick={handleLogin} className="m-2">Login</Button>
                     <Button onClick={handleSignin} className="m-2">Sign in</Button>
                 </Form.Group>
