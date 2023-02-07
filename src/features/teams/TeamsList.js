@@ -2,12 +2,19 @@ import { useGetTeamsQuery } from "./teamsApiSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import TeamCard from "./TeamCard";
-import { Card, Nav } from "react-bootstrap";
+import { Card, Form, Nav } from "react-bootstrap";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const TeamsList = () => {
     // const {pathname} = useLocation()
     // const TEAMSLIST_REGEX = /^\/main\/teamlist\/?$/
-
+    const [Search, setSearch] = useState("")
+    const [SearchReg, setSearchReg] = useState(new RegExp(Search, "i"))
+    useEffect(()=>{
+        setSearchReg(new RegExp(Search, "i"))
+    },[Search])
+    
     const {data:teams,
         isLoading,isError,error
     }=useGetTeamsQuery("teamsList",{
@@ -19,12 +26,12 @@ const TeamsList = () => {
     if(isLoading){content=<p>Loading</p>}
     if(isError){content = <p>Something went wrong {error?.data?.message}</p>}
     if (teams){
-        const {ids} = teams
-        const teamCardList = ids?.map(teamId=><TeamCard key={teamId} teamId={teamId}/>)
+        const ids = Object.entries(teams?.entities).filter(([ids, data]) => SearchReg.test(data.teamname)).map(ary=>ary[0])
+        const teamCardList = ids?.length>0 ? ids?.map(teamId=><TeamCard key={teamId} teamId={teamId}/>) : "No Team Found"
         content =(<Card>
             <Card.Header className="title__menu">
             <Nav className="p-0 align-items-center justify-content-between">
-                <Nav.Item/>
+            <Nav.Item><Form.Control onChange={e=>setSearch(e.target.value)} placeholder="Teams Search"/></Nav.Item>
                 <Nav.Item> TeamList</Nav.Item>
                 <Nav.Link href="/main/team/new" > <FontAwesomeIcon icon={faFileCirclePlus}/> </Nav.Link>
             </Nav>

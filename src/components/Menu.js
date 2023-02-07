@@ -1,25 +1,16 @@
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import useMenu from "../hooks/useMenu";
 
 const Menu = () => {
+    const menu = useMenu()
     return (<Card className="menu">
         <Card.Header className="title__menu">Menu</Card.Header>
         <Card.Body className="p-0">
-            <Card.Text className="m-0">
-                <Link to="joblist" >・JOB List</Link>
-            </Card.Text>
-            <Card.Text className="m-0">
-                <Link to="project">・Project</Link>
-            </Card.Text>
-            <Card.Text className="m-0">
-                <Link to="team">・Team</Link>
-            </Card.Text>
-            <Card.Text className="m-0">
-                <Link to="approve">・Approve</Link>
-            </Card.Text>
-            <Card.Text className="m-0">
-                <Link to="complete">・Complete</Link>
-            </Card.Text>
+            {menu.map(m=>
+            (<Card.Text className="m-0 capitalize" key={m} >
+                <Link to={m.replace(/\s+/g, '')} >{`・${m}`}</Link>
+            </Card.Text>))}
         </Card.Body></Card>);
 }
 

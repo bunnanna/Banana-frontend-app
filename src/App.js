@@ -23,6 +23,12 @@ import EditTeam from "./features/teams/EditTeam";
 import ApprovedList from "./features/tasks/ApprovedList";
 import CompletedList from "./features/tasks/CompletedList";
 import MainIndex from "./components/MainIndex";
+import SkillsList from "./features/skills/SkillsList";
+import NewSkill from "./features/skills/NewSkill";
+import EditSkill from "./features/skills/EditSkill";
+import RolesList from "./features/roles/RolesList";
+import NewRole from "./features/roles/NewRole";
+import EditRole from "./features/roles/EditRole";
 
 function App() {
   return (
@@ -62,6 +68,24 @@ function App() {
               <Route path="edit" element={<EditTeam/>}/>
             </Route>
         </Route>
+          <Route path="skill" element={<OutletLayout/>}>
+          <Route index element={<SkillsList/>}/>
+          <Route path="new" element={<NewSkill/>}/>
+            <Route path=":id" element={<OutletLayout/>}>
+              {/* <Route index element={<ProjectComponent/>}/> */}
+              <Route path="edit" element={<EditSkill/>}/>
+            </Route>
+        </Route>
+          <Route path="role" element={<OutletLayout/>}>
+          <Route index element={<RolesList/>}/>
+          <Route path="new" element={<NewRole/>}/>
+            <Route path=":id" element={<OutletLayout/>}>
+              {/* <Route index element={<ProjectComponent/>}/> */}
+              <Route path="edit" element={<EditRole/>}/>
+            </Route>
+        </Route>
+
+
         <Route path="approve" element={<OutletLayout/>}>
             <Route index element={<ApprovedList/>}/>
         </Route>

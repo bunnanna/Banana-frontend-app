@@ -1,3 +1,4 @@
+import { Button } from "react-bootstrap";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import UserProfile from "./UserProfile";
 import { useGetUsersQuery } from "./usersApiSlice";
@@ -16,8 +17,11 @@ const UserPage = () => {
     let content
     if(isLoading) content=<p>Loading...</p>
     if(currentUser&&isSuccess) {
-
-        content = <UserProfile user={currentUser} />
+        content = (<>
+        <UserProfile user={currentUser} />
+        <Button href="/user/list">User List</Button>
+        </>
+        )
     }
     return content
 

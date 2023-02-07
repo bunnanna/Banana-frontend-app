@@ -75,7 +75,7 @@ export default function EditProjectForm({project}) {
                             options={usersOption}
                             onChange={e=>setManager(e.value)}
                             className="dropdown"
-                            styles={dropDownStyle(0)}
+                            styles={dropDownStyle(1.5)}
                             defaultValue={{value: manager.id, label: manager.username}}
                         />
                     </Form.Group> </Card.Subtitle>
@@ -87,7 +87,7 @@ export default function EditProjectForm({project}) {
                             onChange={e => { setTeams(e.map(ele => ele.value)) }}
                             isMulti
                             className="dropdown"
-                            styles={dropDownStyle(Teams.length)}
+                            styles={dropDownStyle(1)}
                             defaultValue={project_teams.map(e => {
                                 return { value: e._id, label: e.teamname }
                             })}

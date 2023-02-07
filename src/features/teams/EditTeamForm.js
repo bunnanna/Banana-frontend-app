@@ -74,7 +74,7 @@ export default function EditTeamForm({team}) {
                             onChange={e=>setManager(e.value)}
                             className="dropdown"
                             styles={dropDownStyle(1.5)}
-                            defaultValue= { {value: Manager._id, label: Manager.username} }
+                            defaultValue= {{value: Manager._id, label: Manager.username} }
                         />
                     </Form.Group> </Card.Subtitle>
 

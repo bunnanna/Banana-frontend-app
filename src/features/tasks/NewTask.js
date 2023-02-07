@@ -19,9 +19,9 @@ const NewTask = () => {
     const [Teams, setTeams] = useState([])
 
     const [CheckLists, setCheckLists] = useState([{ check: false, subtask: "" }])
-    const [Projects, setProjects] = useState([""])
-    const tasknameRef = useRef("")
-    const descriptionRef = useRef("")
+    const [Projects, setProjects] = useState([])
+    const tasknameRef = useRef()
+    const descriptionRef = useRef()
     const [Skills, setSkills] = useState([])
     const {data:skills,isSuccess:isSkillSuccess} = useGetSkillsQuery("skillsList")
     const {data:projects,isSuccess:isProjectSuccess} = useGetProjectsQuery("projectsList")
