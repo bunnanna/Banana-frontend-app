@@ -5,7 +5,7 @@ import useMenu from "../hooks/useMenu";
 const Menu = () => {
     const menu = useMenu()
     return (<Card className="menu">
-        <Card.Header className="title__menu">Menu</Card.Header>
+        <Card.Header className="d-flex justify-content-center">Menu</Card.Header>
         <Card.Body className="p-0">
             {menu.map(m=>
             (<Card.Text className="m-0 capitalize" key={m} >

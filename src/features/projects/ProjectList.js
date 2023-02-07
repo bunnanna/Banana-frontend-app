@@ -28,7 +28,7 @@ const ProjectsList = () => {
         const ids = Object.entries(projects?.entities).filter(([ids, data]) => SearchReg.test(data.projectname)).map(ary=>ary[0])
         const projectCardList = ids?.length>0 ?ids?.map(projectId=><ProjectCard key={projectId} projectId={projectId}/>) : "No Project Found"
         content =(<Card>
-            <Card.Header className="title__menu">
+            <Card.Header>
             <Nav className="p-0 align-items-center justify-content-between">
                 <Nav.Item><Form.Control onChange={e=>setSearch(e.target.value)} placeholder="Project Search"/></Nav.Item>
                 <Nav.Item> ProjectList</Nav.Item>

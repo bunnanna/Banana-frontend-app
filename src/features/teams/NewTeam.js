@@ -62,7 +62,6 @@ function NewTeam() {
                         <Select
                             options={usersOption}
                             onChange={e=>setManager(e.value)}
-                            className="dropdown"
                             styles={dropDownStyle(1.5)}
                         />
                     </Form.Group> </Card.Subtitle>
@@ -73,7 +72,6 @@ function NewTeam() {
                             options={usersOption}
                             onChange={e => { setMember(e.map(ele => ele.value)) }}
                             isMulti
-                            className="dropdown"
                             styles={dropDownStyle(1)}
                         />
                     </Form.Group>

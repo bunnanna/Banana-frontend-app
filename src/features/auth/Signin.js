@@ -1,19 +1,20 @@
 import { useEffect, useRef, useState } from "react";
+import { Button, Card, Form, InputGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { dropDownStyle } from "../../hooks/dropDownStyle";
 import { useGetSkillsQuery } from "../skills/skillsApiSlice";
 import { useAddNewUserMutation } from "../users/usersApiSlice";
 
 const Signin = () => {
 
     const [addNewUser, { isLoading }] = useAddNewUserMutation()
-    const userRef = useRef()
     const errRef = useRef()
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
     const [errMsg, setErrMsg] = useState()
     const [Skills, setSkills] = useState([])
-    const {data:skills,isSuccess} = useGetSkillsQuery("skillsList")
+    const { data: skills, isSuccess } = useGetSkillsQuery("skillsList")
 
     const navigate = useNavigate()
 
@@ -23,10 +24,12 @@ const Signin = () => {
 
     const handleSignin = async (e) => {
         e.preventDefault()
-        const data = {username,
+        const data = {
+            username,
             password,
-            skills:Skills}
-            console.log(data);
+            skills: Skills
+        }
+        console.log(data);
         try {
             addNewUser(data)
             setUsername("")
@@ -50,45 +53,46 @@ const Signin = () => {
 
     const onUsernameChange = e => setUsername(e.target.value)
     const onPasswordChange = e => setPassword(e.target.value)
-    const onSkillsChange = e => setSkills(e.map(ele=>ele.value))
-    
+    const onSkillsChange = e => setSkills(e.map(ele => ele.value))
+
     const errClass = errMsg ? "onscreen" : "offscreen"
 
     if (isLoading) return <p>Loading...</p>
     let content
-    if(isSuccess) {
-        const skillsOption = skills.ids.map(e=>{
-            return{value:e,label:skills.entities[e].skillname}
+    if (isSuccess) {
+        const skillsOption = skills.ids.map(e => {
+            return { value: e, label: skills.entities[e].skillname }
         })
-    content = (
-        <div>
-            <h1>Login</h1>
-            <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
-            <div className="login__layout">
-                <div className="login__form">
-                    <label htmlFor="username">Username</label>
-                    <input type="text" className="login__input" name="username" ref={userRef} value={username} onChange={onUsernameChange} />
-
-                    <label htmlFor="password">Password</label>
-                    <input type="password" className="login__input" name="password" value={password} onChange={onPasswordChange} />
-                </div>
-                <div>
-                    <div>
-                        skills
-                    </div>
-                <Select 
-                options={skillsOption}
-                isMulti
-                onChange={onSkillsChange}
-                className="dropdown"
-                />
-                </div>
-                    <div>
-                        <button className="login__button" onClick={handleSignin}>Sign in</button>
-                    </div>
-            </div>
-        </div>
-    )}
+        content = (
+            <Card>
+                <Card.Header>Sign up</Card.Header>
+                <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
+                <Card.Body as={Form}>
+                    <InputGroup className="p-2">
+                        <InputGroup.Text htmlFor="username">Username</InputGroup.Text>
+                        <Form.Control type="text" onChange={onUsernameChange} />
+                    </InputGroup>
+                    <InputGroup className="p-2">
+                        <InputGroup.Text htmlFor="password">Password</InputGroup.Text>
+                        <Form.Control type="password" onChange={onPasswordChange} />
+                    </InputGroup>
+                    <InputGroup className="p-2">
+                        <InputGroup.Text>
+                            skills
+                        </InputGroup.Text>
+                        <Select
+                            options={skillsOption}
+                            isMulti
+                            onChange={onSkillsChange}
+                            className="m-0"
+                            styles={dropDownStyle(1)}
+                        />
+                    </InputGroup>
+                        <Button onClick={handleSignin}>Sign in</Button>
+                </Card.Body>
+            </Card>
+        )
+    }
     return content;
 }
 

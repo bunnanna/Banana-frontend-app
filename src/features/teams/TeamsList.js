@@ -29,7 +29,7 @@ const TeamsList = () => {
         const ids = Object.entries(teams?.entities).filter(([ids, data]) => SearchReg.test(data.teamname)).map(ary=>ary[0])
         const teamCardList = ids?.length>0 ? ids?.map(teamId=><TeamCard key={teamId} teamId={teamId}/>) : "No Team Found"
         content =(<Card>
-            <Card.Header className="title__menu">
+            <Card.Header>
             <Nav className="p-0 align-items-center justify-content-between">
             <Nav.Item><Form.Control onChange={e=>setSearch(e.target.value)} placeholder="Teams Search"/></Nav.Item>
                 <Nav.Item> TeamList</Nav.Item>

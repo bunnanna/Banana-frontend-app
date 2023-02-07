@@ -29,6 +29,7 @@ import EditSkill from "./features/skills/EditSkill";
 import RolesList from "./features/roles/RolesList";
 import NewRole from "./features/roles/NewRole";
 import EditRole from "./features/roles/EditRole";
+import UserList from "./features/users/UserList";
 
 function App() {
   return (
@@ -96,6 +97,7 @@ function App() {
 
         <Route path="user" element={<OutletLayout/>}>
           <Route index element={<UserPage/>}/>
+          <Route path="list" element={<UserList/>}/>
         
         </Route>
         </Route>

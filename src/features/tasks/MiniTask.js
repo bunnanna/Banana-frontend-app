@@ -14,12 +14,12 @@ const MiniTask = ({ taskId }) => {
         const { project, taskname, teams, skills } = task
         return (<Link to={`/main/joblist/${taskId}`}>
             <Card className={`m-2`}>
-                <Card.Header className>
+                <Card.Header>
                     {project.projectname}
                 </Card.Header>
 
                 <Card.Body>
-                    <Card.Title className>
+                    <Card.Title>
                         {taskname}
                     </Card.Title>
                     <Container>

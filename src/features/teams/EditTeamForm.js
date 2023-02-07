@@ -72,7 +72,6 @@ export default function EditTeamForm({team}) {
                         <Select
                             options={usersOption}
                             onChange={e=>setManager(e.value)}
-                            className="dropdown"
                             styles={dropDownStyle(1.5)}
                             defaultValue= {{value: Manager._id, label: Manager.username} }
                         />

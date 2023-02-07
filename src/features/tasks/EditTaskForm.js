@@ -146,7 +146,6 @@ const EditTaskForm = ({ task }) => {
                                 <Select
                                     options={projectsOption}
                                     onChange={e => setProjects(e.value)}
-                                    className="dropdown"
                                     styles={dropDownStyle(1)}
                                     defaultValue={{ value: project._id, label: project.projectname }}
                                 />
@@ -183,7 +182,7 @@ const EditTaskForm = ({ task }) => {
                     <Button variant="primary" className="m-1" onClick={onSaveClicked}>Save</Button>
                     <Button variant="danger" className="m-1" onClick={onDelClicked}>Delete</Button>
                     <Card.Footer as={Container}>
-                        <Row md={3}>
+                        <Row md={2}>
                             <FormGroup as={Col} className="d-flex flex-column align-items-center">
                                 <Form.Label>Teams</Form.Label>
                                 <Select
@@ -193,10 +192,8 @@ const EditTaskForm = ({ task }) => {
                                     defaultValue={teams.map(e => {
                                         return { value: e._id, label: e.teamname }
                                     })}
-                                    className="task__teams__dropdown"
-                                    styles={dropDownStyle(teams.length)}
+                                    styles={dropDownStyle(1)}
                                 />
-
                             </FormGroup>
 
 
@@ -208,12 +205,11 @@ const EditTaskForm = ({ task }) => {
                                 <Select
                                     options={skillsOption}
                                     isMulti
-                                    styles={dropDownStyle(teams.length)}
+                                    styles={dropDownStyle(1)}
                                     defaultValue={skills.map(e => {
                                         return { value: e._id, label: e.skillname }
                                     })}
                                     onChange={e => setSkills(e.map(ele => ele.value))}
-                                    className="task__skills__dropdown"
                                 />
                             </FormGroup>
                                 

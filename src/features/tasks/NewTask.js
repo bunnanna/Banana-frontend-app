@@ -157,7 +157,6 @@ const NewTask = () => {
                             options={teamsOption}
                             isMulti
                             onChange={e => setTeams(e.map(ele => ele.value))}
-                            className="task__teams__dropdown"
                             styles={dropDownStyle(Teams.length)}
                         />
 
@@ -174,7 +173,6 @@ const NewTask = () => {
                             isMulti
                             styles={dropDownStyle(Skills.length)}
                             onChange={e => setSkills(e.map(ele => ele.value))}
-                            className="task__skills__dropdown"
                         />
                     </FormGroup>
 

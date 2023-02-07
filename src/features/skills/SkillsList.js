@@ -28,7 +28,7 @@ export default function SkillsList() {
         const ids = Object.entries(skills?.entities).filter(([ids, data]) => SearchReg.test(data.skillname)).map(ary=>ary[0])
         const skillCardList = ids?.length>0 ? ids?.map(skillId=><SkillCard key={skillId} skillId={skillId}/>)  : "No Skill Found"
         content =(<Card>
-            <Card.Header className="title__menu">
+            <Card.Header>
             <Nav className="p-0 align-items-center justify-content-between">
             <Nav.Item><Form.Control onChange={e=>setSearch(e.target.value)} placeholder="Skills Search"/></Nav.Item>
                 <Nav.Item> SkillList</Nav.Item>

@@ -27,7 +27,7 @@ export default function RolesList() {
         const ids = Object.entries(roles?.entities).filter(([ids, data]) => SearchReg.test(data.rolename)).map(ary=>ary[0])
         const roleCardList = ids?.length>0 ? ids?.map(roleId=><RoleCard key={roleId} roleId={roleId}/>) : "No Role Found"
         content =(<Card>
-            <Card.Header className="title__menu">
+            <Card.Header>
             <Nav className="p-0 align-items-center justify-content-between">
             <Nav.Item><Form.Control onChange={e=>setSearch(e.target.value)} placeholder="Roles Search"/></Nav.Item>
                 <Nav.Item> RoleList</Nav.Item>

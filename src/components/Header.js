@@ -17,12 +17,12 @@ const Header = () => {
 
     return ( 
         <Container className="m-0 p-0" >
-        <Navbar expand="mg" bg="white">
+        <Navbar expand="mg" bg="white" className="d-flex align-items-center">
             <Navbar.Brand>
-                <Link to="/main"><span>Banana Job Card Apuri</span></Link> 
+                <Link to={username?"/main":"/"}><span>Banana Job Card Apuri</span></Link> 
                </Navbar.Brand> 
 
-        <Nav className="d-flex flex-row ">
+        <Nav className="d-flex flex-row align-items-center"> 
             <Nav.Link href="/user" className="mx-2">{username}</Nav.Link>
             <Nav.Item className="mx-2"><Button onClick={sendLogout}>Log Out</Button></Nav.Item>
         </Nav> 

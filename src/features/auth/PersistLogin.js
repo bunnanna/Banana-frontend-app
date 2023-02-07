@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import { Alert } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useRefreshMutation } from "./authApiSlice";
 import { selectCurrentToken } from "./authSlice";
 
@@ -38,10 +39,10 @@ const PersistLogin = () => {
     }else if(isError){
         console.log("error")
         content = (
-            <p className="errmsg">
+            <Alert variant="danger">
                 {`${error?.data?.message} - `}
-                <Link to="/login">Please login again</Link>
-            </p>
+                <Alert.Link href="/login">Please login again</Alert.Link>
+            </Alert>
         )
     }else if(isSuccess && trueSuccess){
         console.log("success")

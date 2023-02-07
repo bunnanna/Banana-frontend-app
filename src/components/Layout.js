@@ -3,7 +3,7 @@ import Header from "./Header";
 
 const Layout = () => {
     return (<><Header/>
-    <div className="body__content">
+    <div className="d-flex justify-content-center align-content-center">
         <Outlet/>
     </div>
     </>);
