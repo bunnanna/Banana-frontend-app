@@ -1,6 +1,8 @@
+import { faFilePen } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { Button } from 'react-bootstrap';
 import Card  from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
 import { useGetTeamsQuery } from './teamsApiSlice';
 
 const TeamCard = ({teamId}) => {
@@ -16,7 +18,7 @@ const TeamCard = ({teamId}) => {
     const { teamname, manager, member, project } = team
   content= (
     <Card className='m-2'>
-      <Card.Header>{teamname}</Card.Header>
+      <Card.Header className="d-flex justify-content-between align-items-center">{teamname} <Link to={`/main/team/${teamId}/edit`}><FontAwesomeIcon icon={faFilePen}/></Link></Card.Header>
       <Card.Body>
         <Card.Subtitle className="mb-2 text-muted">Manager: {manager.username}</Card.Subtitle>
         { member?.length>0&&<Card.Subtitle>Member</Card.Subtitle> }
@@ -25,10 +27,6 @@ const TeamCard = ({teamId}) => {
         {project.map(project=><Card.Text key={project._id} className="mb-0"><Card.Link href={`/main/joblist/${project._id}`}>{project.projectname}</Card.Link></Card.Text>)}
 
       </Card.Body>
-      <Card.Footer>
-        <Button href={`/main/team/${teamId}/edit`}> Edit </Button>
-        
-      </Card.Footer>
     </Card>
   );
 };

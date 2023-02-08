@@ -10,7 +10,7 @@ import OutletLayout from "./components/Outlet";
 import TaskComponent from "./features/tasks/TaskComponent";
 import EditTask from "./features/tasks/EditTask";
 import RequireAuth from "./features/auth/RequireAuth";
-import Signin from "./features/auth/Signin";
+import SignUp from "./features/users/SignUp";
 import PersistLogin from "./features/auth/PersistLogin";
 import UserPage from "./features/users/UserPage";
 import PrefetchA from "./features/auth/PrefetchA";
@@ -30,6 +30,7 @@ import RolesList from "./features/roles/RolesList";
 import NewRole from "./features/roles/NewRole";
 import EditRole from "./features/roles/EditRole";
 import UserList from "./features/users/UserList";
+import EditUser from "./features/users/EditUser";
 
 function App() {
   return (
@@ -38,7 +39,7 @@ function App() {
       <Route path="/" element={<Layout/>}>
         <Route path="/" element={<FirstPage/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route path="/signin" element={<Signin/>}/>
+        <Route path="/signup" element={<SignUp/>}/>
 
         <Route element={<PersistLogin/>}>
         <Route element={<Prefetch/>}>
@@ -98,7 +99,10 @@ function App() {
         <Route path="user" element={<OutletLayout/>}>
           <Route index element={<UserPage/>}/>
           <Route path="list" element={<UserList/>}/>
-        
+          <Route path=":id" element={<OutletLayout/>}>
+              {/* <Route index element={<ProjectComponent/>}/> */}
+              <Route path="edit" element={<EditUser/>}/>
+            </Route>
         </Route>
         </Route>
         </Route>

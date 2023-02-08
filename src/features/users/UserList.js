@@ -22,11 +22,11 @@ export default function UserList() {
    <Table striped bordered hover variant="light">
         <thead>
           <tr>
-            <th>username</th>
-            <th>roles</th>
-            <th>teams</th>
-            <th>skills</th>
-            <th>active</th>
+            <th>Username</th>
+            <th>Roles</th>
+            <th>Teams</th>
+            <th>Skills</th>
+            <th>Active</th>
             <th>Edit</th>
 
           </tr>

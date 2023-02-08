@@ -1,7 +1,7 @@
 import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react"
-import { Card, Form, Nav } from "react-bootstrap"
+import { Card, Col, Form, Nav, Row } from "react-bootstrap"
 import RoleCard from "./RoleCard"
 import { useGetRolesQuery } from "./rolesApiSlice"
 
@@ -25,7 +25,7 @@ export default function RolesList() {
     if(isError){content = <p>Something went wrong {error?.data?.message}</p>}
     if (roles){
         const ids = Object.entries(roles?.entities).filter(([ids, data]) => SearchReg.test(data.rolename)).map(ary=>ary[0])
-        const roleCardList = ids?.length>0 ? ids?.map(roleId=><RoleCard key={roleId} roleId={roleId}/>) : "No Role Found"
+        const roleCardList = ids?.length>0 ? ids?.map(roleId=><Col><RoleCard key={roleId} roleId={roleId}/></Col>) : "No Role Found"
         content =(<Card>
             <Card.Header>
             <Nav className="p-0 align-items-center justify-content-between">
@@ -34,7 +34,10 @@ export default function RolesList() {
                 <Nav.Link href="/main/role/new" > <FontAwesomeIcon icon={faFileCirclePlus}/> </Nav.Link>
             </Nav>
             </Card.Header>
-            {roleCardList}
+            <Row md={2}>
+                {roleCardList}
+            </Row>
+            
             </Card>)
         
     }

@@ -21,6 +21,7 @@ const ProjectsList = () => {
         pollingInterval:60*1000,
         refetchOnFocus:true,
         refetchOnMountOrArgChange:true})
+        
     let content
     if(isLoading){content=<p>Loading</p>}
     if(isError){content = <p>Something went wrong {error?.data?.message}</p>}

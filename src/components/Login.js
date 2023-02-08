@@ -48,7 +48,7 @@ const Login = () => {
             errRef.current.focus()
         }
     }
-    const handleSignin = e =>navigate("/signin")
+    const handleSignup = e =>navigate("/signup")
 
     const onUsernameChange = e => setUsername(e.target.value)
     const onPasswordChange = e => setPassword(e.target.value)
@@ -69,7 +69,7 @@ const Login = () => {
                 </Form.Group>
                 <Form.Group>
                     <Button onClick={handleLogin} className="m-2">Login</Button>
-                    <Button onClick={handleSignin} className="m-2">Sign in</Button>
+                    <Button onClick={handleSignup} className="m-2">Sign up</Button>
                 </Form.Group>
 
             </Card.Body>

@@ -2,7 +2,7 @@ import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect } from "react"
 import { useState } from "react"
-import { Card, Form, Nav } from "react-bootstrap"
+import { Card, Col, Form, Nav, Row } from "react-bootstrap"
 import SkillCard from "./SkillCard"
 import { useGetSkillsQuery } from "./skillsApiSlice"
 
@@ -26,7 +26,7 @@ export default function SkillsList() {
     if(isError){content = <p>Something went wrong {error?.data?.message}</p>}
     if (skills){
         const ids = Object.entries(skills?.entities).filter(([ids, data]) => SearchReg.test(data.skillname)).map(ary=>ary[0])
-        const skillCardList = ids?.length>0 ? ids?.map(skillId=><SkillCard key={skillId} skillId={skillId}/>)  : "No Skill Found"
+        const skillCardList = ids?.length>0 ? ids?.map(skillId=><Col><SkillCard key={skillId} skillId={skillId}/></Col>)  : "No Skill Found"
         content =(<Card>
             <Card.Header>
             <Nav className="p-0 align-items-center justify-content-between">
@@ -35,7 +35,9 @@ export default function SkillsList() {
                 <Nav.Link href="/main/skill/new" > <FontAwesomeIcon icon={faFileCirclePlus}/> </Nav.Link>
             </Nav>
             </Card.Header>
+            <Row md={2}>
             {skillCardList}
+            </Row>
             </Card>)
         
     }

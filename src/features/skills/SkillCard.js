@@ -1,5 +1,8 @@
+import { faFilePen } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react'
-import { Button, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { useGetSkillsQuery } from './skillsApiSlice';
 
 export default function SkillCard({skillId}) {
@@ -14,11 +17,7 @@ export default function SkillCard({skillId}) {
     const { skillname} = skill
   content= (
     <Card className='m-2'>
-      <Card.Header>{skillname}</Card.Header>
-
-      <Card.Footer>
-        <Button href={`/main/skill/${skillId}/edit`}> Edit </Button>    
-      </Card.Footer>
+      <Card.Header className="d-flex justify-content-between align-items-center">{skillname} <Link to={`/main/skill/${skillId}/edit`}><FontAwesomeIcon icon={faFilePen}/></Link></Card.Header>
     </Card>
   );
 };

@@ -15,6 +15,7 @@ body {
   margin : 0;
   padding : 0;
 }
+
 a{
   text-decoration: none;
   color: #000;
@@ -24,6 +25,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 .offscreen{
   display: none;
 }
@@ -33,251 +35,27 @@ code {
 .container{
   max-width: none;
 }
-
+.content{
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .main__content{
   width : 100vw;
   min-height:80vh;
-  margin:1vw;
   display: grid;
   grid-template-columns: 15% 82%;
   column-gap : 3vw;
 }
 
-.menu__zone{
-  display: flex;
-  justify-content: center;
-}
-
 .menu{
   position:sticky;
-  border-radius: 2vw;
-  padding: 1vh;
   top: 4vh;
   width: 20vw;
   max-height: 60vh;
 }
-/* HEADER */
-.page__header{
-  display: flex;
-  justify-content: space-between;
-  padding: 0 1vh 0 1vh;
-  background-color: rgb(254, 234, 136);
-  height:10vh;
-  align-items: center;
-}
-.page__header button{
-  width: 4vw;
-  height: 4vw;
-  font-size: 0.5vw;
-  border:none;
-  margin: 0 0 0 2vh;
-}
-.header__content{
-  color: black;
-  float: left;
-  width: 100%;
 
-}
-.body__content{
-  min-height:85vh;
-  padding-left: 2vw;
-  padding-right: 2vw;
-  display: flex;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-}
-
-
-/* Login */
-.login__layout{
-  background-color: rgba(228, 255, 246, 0.25);
-  border-style: solid;
-  border-radius: 2vw;
-  width: 30vw;
-  padding: 5vh;
-}
-.login__form{
-  display: grid;
-  grid-template-columns: 40% 60%;
-}
-.login__form>*{
-  margin: 1vh;
-}
-.login__input{
-  border-radius: 0.5vw;
-  padding: auto;
-}
-.login__button{
-  width: fit-content;
-  border-radius: 2vw;
-}
-/* MENU  */
-
-
-.title__menu{
-  margin-top: 0;
-  font-size: 2vw;
-  text-align: center;
-}
-.content__zone{
-  background-color: rgba(248, 225, 225, 0.251);
-  border-style: solid;
-  border-radius: 2vw;
-  padding: 2vw;
-  border-color: aliceblue;
-  min-height: 70vh;
- 
-}
-
-/* Task */
-.task__card{
-  background-color: aliceblue;
-  border-style: solid;
-  border-left-width: 1vh;
-  border-radius: 0 2vw 2vw 0;
-  border-color: black;
-  padding: 2vh;
-  margin: 2vh 0 2vh 0;
-  display: grid;
-  grid-template-columns: 70% 30%;
-}
-.task__card__edit{
-  background-color: aliceblue;
-  border-style: solid;
-  border-left-width: 1vh;
-  border-radius: 0 2vw 2vw 0;
-  border-color: black;
-  padding: 2vh;
-  margin: 2vh 0 2vh 0;
-  display: block;
-}
-
-.task__card>*{
-  margin: 2vh;
-  margin-left: 0;
-
-  
-}
-.Text__box{
-  font-size: 2vh;
-  margin: 1vh 0;
-}
-.uncomplete{
-  border-left-color: red;
-}
-
-.completed{
-  border-left-color: rgb(0, 255, 0);
-}
 .capitalize {
   text-transform: capitalize;
 }
-
-.task__project{
-  margin: 0 1vh;
-  font-size: 2.5vw;
-}
-.task__project__layout{
-  display: block
-}
-.task__task{
-  font-size: 2.5vh;
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
-
-.teams__input,.skills__element{
-  margin: 0 0 0 1vh;
-  padding: 0;
-}
-.task__skills__dropdown ,.task__teams__dropdown{
-  font-size: 1vw;
-}
-
-
-.teams__input input,.skills__element input,.task__checklists__element.subtask__input{
-  width: 10vw;
-  margin: 1vh 0;
-}
-
-.check__input{
-  border-style: solid;
-  border-radius: 0.5vw;
-}
-
-.task__checklist>*>span{
-  margin-right: 1vh;
-}
-.task__checklist>*{
-  margin-top: 1vh;
-}
-.task__checklists__element{
-  display: flex;
-  align-items: center;
-}
-
-.save__button{
-  width: 8vh;
-  border-radius: 2vh;
-  background-color: aqua;
-}
-.del__button{
-  width: 8vh;
-  border-radius: 2vh;
-  background-color: rgb(255, 4, 0);
-}
-.Add__button{
-  width: 8vh;
-  border-radius: 0.5vh;
-  background-color: rgb(255, 127, 98);
-}
-
-.user__profile{
-  background-color: rgb(255, 255, 255,.25);
-  width: 100%;
-  height: 100%;
-  position:fixed;
-  top: 10vh;
-  display: grid;
-  grid-template-columns: 30% 70%;
-  grid-gap: 20px;
-  }
-  
-  .user__profile__col{
-  display: flex;
-  flex-direction: column;
-  }
-  
-  .user__username {
-  font-size: 22px;
-  font-weight: bold;
-  }
-  
-  .user__active {
-  font-size: 18px;
-  font-weight: bold;
-  }
-  
-  .user__role-title,
-  .user__team-title,
-  .user__skill-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 20px;
-  }
-  
-  .user__role-list,
-  .user__team-list,
-  .user__skill-list {
-  font-size: 16px;
-  margin-top: 10px;
-  padding-left: 20px;
-  }
-  
-  .user__role-list li,
-  .user__team-list li,
-  .user__skill-list li {
-  margin-bottom: 10px;
-  }

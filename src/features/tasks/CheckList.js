@@ -1,10 +1,17 @@
-import { CloseButton, Form, ListGroup } from "react-bootstrap";
+import { CloseButton, Form, InputGroup, ListGroup } from "react-bootstrap";
 
 const CheckList = ({prop}) => {
-    const {input,index,onHandleChangeCheckLists,onHandleDeleteCheckLists}=prop
+    const {input,index,onHandleCheckMark,onHandleChangeCheckLists,onHandleDeleteCheckLists}=prop
+
 return( 
-    <ListGroup.Item key={index} className="d-flex align-items-center">
-    <Form.Check className="p-1 d-flex align-items-center justify-content-center"><Form.Check.Input checked={input.check} className="m-0" readOnly disabled/></Form.Check>
+    <ListGroup.Item key={index} className="d-flex align-items-center" >
+<InputGroup>
+    <InputGroup.Checkbox 
+    className="p-1 d-flex align-items-center justify-content-center"
+    onChange={e=>onHandleCheckMark(e, input, index)}
+    defaultChecked={input.check}
+    readOnly
+    />
     <Form.Control
         type="text"
         name="subtask"
@@ -15,6 +22,7 @@ return(
         onChange={event => onHandleChangeCheckLists(index, event)}
     />
     <CloseButton onClick={e => onHandleDeleteCheckLists(e, index)} />
+    </InputGroup>
 </ListGroup.Item>)
 }
  

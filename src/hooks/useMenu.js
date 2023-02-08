@@ -1,7 +1,7 @@
 
 const useMenu = () => {
     let menu
-    menu=["job list","project","team","approve","complete","skill","role"]
+    menu=["job list","approve","complete","project","team","skill","role"]
     return menu
 }
  

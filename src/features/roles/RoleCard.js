@@ -1,5 +1,8 @@
+import { faFilePen } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react'
-import { Button, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { useGetRolesQuery } from './rolesApiSlice';
 
 export default function RoleCard({roleId}) {
@@ -14,11 +17,7 @@ export default function RoleCard({roleId}) {
     const { rolename} = role
   content= (
     <Card className='m-2'>
-      <Card.Header>{rolename}</Card.Header>
-
-      <Card.Footer>
-        <Button href={`/main/role/${roleId}/edit`}> Edit </Button>    
-      </Card.Footer>
+      <Card.Header className="d-flex justify-content-between align-items-center">{rolename} <Link to={`/main/role/${roleId}/edit`}><FontAwesomeIcon icon={faFilePen}/></Link></Card.Header>
     </Card>
   );
 };

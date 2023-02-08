@@ -24,7 +24,7 @@ const Header = () => {
 
         <Nav className="d-flex flex-row align-items-center"> 
             <Nav.Link href="/user" className="mx-2">{username}</Nav.Link>
-            <Nav.Item className="mx-2"><Button onClick={sendLogout}>Log Out</Button></Nav.Item>
+            {username?<Nav.Item className="mx-2"><Button onClick={sendLogout}>Log Out</Button></Nav.Item>:null}
         </Nav> 
             
         </Navbar>   

@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { dropDownStyle } from "../../hooks/dropDownStyle";
 import { useGetSkillsQuery } from "../skills/skillsApiSlice";
-import { useAddNewUserMutation } from "../users/usersApiSlice";
+import { useAddNewUserMutation } from "./usersApiSlice";
 
-const Signin = () => {
+const SignUp = () => {
 
     const [addNewUser, { isLoading }] = useAddNewUserMutation()
     const errRef = useRef()
@@ -22,7 +22,7 @@ const Signin = () => {
         setErrMsg("")
     }, [username, password])
 
-    const handleSignin = async (e) => {
+    const handleSignUp = async (e) => {
         e.preventDefault()
         const data = {
             username,
@@ -88,7 +88,7 @@ const Signin = () => {
                             styles={dropDownStyle(1)}
                         />
                     </InputGroup>
-                        <Button onClick={handleSignin}>Sign in</Button>
+                        <Button onClick={handleSignUp}>Sign up</Button>
                 </Card.Body>
             </Card>
         )
@@ -96,4 +96,4 @@ const Signin = () => {
     return content;
 }
 
-export default Signin;
+export default SignUp;
