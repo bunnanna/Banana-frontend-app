@@ -65,7 +65,7 @@ function NewProject() {
                         <Select
                             options={usersOption}
                             onChange={e=>setManager(e.value)}
-                            styles={dropDownStyle(0)}
+                            styles={dropDownStyle(1.5)}
                         />
                     </Form.Group> </Card.Subtitle>
 
@@ -75,7 +75,7 @@ function NewProject() {
                             options={teamsOption}
                             onChange={e => { setTeams(e.map(ele => ele.value)) }}
                             isMulti
-                            styles={dropDownStyle(Teams.length)}
+                            styles={dropDownStyle(1.5)}
                         />
                     </Form.Group>
                     <Button className='m-1' onClick={onHandleSave}>Save</Button>

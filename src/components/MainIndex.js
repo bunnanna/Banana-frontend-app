@@ -12,7 +12,7 @@ const menu = useMenu()
     <Card.Body>
         <Row md={2}>
             {menu.map(e=>(<Col key={e}>
-            <Link to={`${e}`} >
+            <Link to={e.replace(/\s+/g, '')} >
             <Card className="m-2">
                 <Card.Header className="d-flex justify-content-center capitalize">{e}</Card.Header>
             </Card></Link>

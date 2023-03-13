@@ -9,6 +9,7 @@ import { useGetSkillsQuery } from "../skills/skillsApiSlice";
 import { useGetTeamsQuery } from "../teams/teamsApiSlice";
 import CheckList from "./CheckList";
 import { useAddNewTaskMutation } from "./tasksApiSlice";
+import DateTimePicker from 'react-datetime-picker'
 
 const NewTask = () => {
 
@@ -23,6 +24,7 @@ const NewTask = () => {
     const tasknameRef = useRef()
     const descriptionRef = useRef()
     const [Skills, setSkills] = useState([])
+    const [DateLine,setDateLine]=useState(new Date())
     const {data:skills,isSuccess:isSkillSuccess} = useGetSkillsQuery("skillsList")
     const {data:projects,isSuccess:isProjectSuccess} = useGetProjectsQuery("projectsList")
     const {data:teams,isSuccess:isTeamSuccess} = useGetTeamsQuery("teamsList")
@@ -92,6 +94,7 @@ const NewTask = () => {
             teams:Teams.filter(e=>!!(e?.trim())),
             skills:Skills.filter(e=>!!(e?.trim())),
             checklists:CheckLists.filter(e=>!!(e.subtask?.trim())),
+            dateline:DateLine,
             }
             console.log({...NewTask});
             await addNewTask({...NewTask})
@@ -148,6 +151,10 @@ const NewTask = () => {
                         )})}
                 </ListGroup>
             </FormGroup>
+            <DateTimePicker
+                                value={DateLine}
+                                onChange={e=> setDateLine(e)}
+                                />  
             <Button variant="primary" className="m-1" onClick={onSaveClicked}>Save</Button>
             <Card.Footer as={Container}>
                 <Row md={2}>
@@ -157,7 +164,7 @@ const NewTask = () => {
                             options={teamsOption}
                             isMulti
                             onChange={e => setTeams(e.map(ele => ele.value))}
-                            styles={dropDownStyle(Teams.length)}
+                            styles={dropDownStyle(1)}
                         />
 
                     </FormGroup>
@@ -171,7 +178,7 @@ const NewTask = () => {
                         <Select
                             options={skillsOption}
                             isMulti
-                            styles={dropDownStyle(Skills.length)}
+                            styles={dropDownStyle(1)}
                             onChange={e => setSkills(e.map(ele => ele.value))}
                         />
                     </FormGroup>
