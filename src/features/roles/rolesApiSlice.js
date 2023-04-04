@@ -7,8 +7,8 @@ const initialState = rolesAdapter.getInitialState()
 export const rolesApiSlice = apiSlice.injectEndpoints({
     endpoints:builder=>({
         getRoles:builder.query({
-            query:()=>({
-                url:"/roles",
+            query:(filter)=>({
+                url:`/roles/${JSON.stringify({ ...filter })}`,
                 validateStatus:(res,result)=>{
                     return res.status === 200 && !result.isError
                 },

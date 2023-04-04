@@ -8,11 +8,11 @@ import { useGetProjectsQuery } from './projectsApiSlice';
 
 const ProjectCard = ({projectId}) => {
 
-    const {project} = useGetProjectsQuery({filter:{_id:projectId}},{
+    const {project} = useGetProjectsQuery({_id:projectId},{
         selectFromResult:({data})=>({
             project:data?.entities[projectId]
         })
-    },"projectsList")
+    })
 
     let content
     if(project){

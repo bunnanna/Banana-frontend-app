@@ -16,8 +16,7 @@ export default function SkillsList() {
 
     const {data:skills,
         isLoading,isError,error 
-    }=useGetSkillsQuery("skillsList",{
-        pollingInterval:60*1000,
+    }=useGetSkillsQuery(null,{
         refetchOnFocus:true,
         refetchOnMountOrArgChange:true})
 
@@ -26,7 +25,7 @@ export default function SkillsList() {
     if(isError){content = <p>Something went wrong {error?.data?.message}</p>}
     if (skills){
         const ids = Object.entries(skills?.entities).filter(([ids, data]) => SearchReg.test(data.skillname)).map(ary=>ary[0])
-        const skillCardList = ids?.length>0 ? ids?.map(skillId=><Col><SkillCard key={skillId} skillId={skillId}/></Col>)  : "No Skill Found"
+        const skillCardList = ids?.length>0 ? ids?.map(skillId=><Col key={skillId}><SkillCard skillId={skillId}/></Col>)  : "No Skill Found"
         content =(<Card>
             <Card.Header>
             <Nav className="p-0 align-items-center justify-content-between">

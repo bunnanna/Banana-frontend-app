@@ -17,8 +17,7 @@ const ProjectsList = () => {
 
     const {data:projects,
         isLoading,isError,error
-    }=useGetProjectsQuery("projectsList",{
-        pollingInterval:60*1000,
+    }=useGetProjectsQuery(null,{
         refetchOnFocus:true,
         refetchOnMountOrArgChange:true})
         

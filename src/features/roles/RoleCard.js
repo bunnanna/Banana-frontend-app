@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 import { useGetRolesQuery } from './rolesApiSlice';
 
 export default function RoleCard({roleId}) {
-    const {role} = useGetRolesQuery({filter:{_id:roleId}},{
+    const {role} = useGetRolesQuery({_id:roleId},{
         selectFromResult:({data})=>({
             role:data?.entities[roleId]
         })
-    },"rolesList")
+    })
 
     let content
     if(role){

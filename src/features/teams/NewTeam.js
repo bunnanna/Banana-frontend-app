@@ -10,12 +10,12 @@ import { useAddNewTeamMutation } from './teamsApiSlice'
 
 function NewTeam() {
     const { data: users,
-    } = useGetUsersQuery("usersList", {
+    } = useGetUsersQuery(null,{
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
     })
     const { data: teams,
-    } = useGetTeamsQuery("teamsList", {
+    } = useGetTeamsQuery(null,{
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
     })

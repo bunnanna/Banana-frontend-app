@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { useGetTasksQuery } from "./tasksApiSlice";
 
 const MiniTask = ({ taskId }) => {
-    const { task } = useGetTasksQuery({ filter: { _id: taskId } }, {
+    const { task } = useGetTasksQuery({ _id: taskId } , {
         selectFromResult: ({ data }) => ({
             task: data?.entities[taskId]
         })
-    }, "tasksList")
+    })
 
     if (task) {
 

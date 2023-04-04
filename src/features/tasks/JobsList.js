@@ -17,26 +17,25 @@ const JobsList = () => {
     const currentUser = useCurrentUser()
 
     const { user
-    } = useGetUsersQuery({ filter: { username: currentUser.username } }, {
+    } = useGetUsersQuery({ username: currentUser.username } , {
         selectFromResult: ({ data }) => ({
             user: data?.entities[data?.ids]
         })
-    }, "usersList")
+    }, )
 
     const { data: tasks,
         isLoading, isError, error
-    } = useGetTasksQuery({ filter: { status: "assign", teams: { $in: user?.teams.map(e => e?._id) } } }, {
-        pollingInterval: 60 * 1000,
+    } = useGetTasksQuery({ status: "assign", teams: { $in: user?.teams.map(e => e?._id) }}||{ status: "assign"} , {
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
-    }, "tasksList")
+    })
     
     useEffect(()=>{
         setSearchReg(new RegExp(Search, "i"))
     },[Search])
 
     let content
-    if (isLoading) { content = <p>Loading</p> }
+    if (!user || isLoading) { content = <p>Loading</p> }
     if (isError) { content = <p>Something went wrong {error?.data?.message}</p> }
     if (tasks) {
         

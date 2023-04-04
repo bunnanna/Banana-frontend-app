@@ -15,8 +15,7 @@ export default function RolesList() {
 
     const {data:roles,
         isLoading,isError,error 
-    }=useGetRolesQuery("rolesList",{
-        pollingInterval:60*1000,
+    }=useGetRolesQuery(null,{
         refetchOnFocus:true,
         refetchOnMountOrArgChange:true})
 
@@ -25,7 +24,7 @@ export default function RolesList() {
     if(isError){content = <p>Something went wrong {error?.data?.message}</p>}
     if (roles){
         const ids = Object.entries(roles?.entities).filter(([ids, data]) => SearchReg.test(data.rolename)).map(ary=>ary[0])
-        const roleCardList = ids?.length>0 ? ids?.map(roleId=><Col><RoleCard key={roleId} roleId={roleId}/></Col>) : "No Role Found"
+        const roleCardList = ids?.length>0 ? ids?.map(roleId=><Col key={roleId}><RoleCard roleId={roleId}/></Col>) : "No Role Found"
         content =(<Card>
             <Card.Header>
             <Nav className="p-0 align-items-center justify-content-between">

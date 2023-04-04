@@ -21,9 +21,9 @@ export default function EditUserForm({user}) {
     const[skills,setSkills]=useState(user.skills.map(e => e._id))
     const[active,setActive]=useState(user.active)
 
-    const { data: all_skills, isSuccess: isSkillSuccess } = useGetSkillsQuery("skillsList")
-    const { data: all_roles, isSuccess: isRoleSuccess } = useGetRolesQuery("projectsList")
-    const { data: all_teams, isSuccess: isTeamSuccess } = useGetTeamsQuery("teamsList")
+    const { data: all_skills, isSuccess: isSkillSuccess } = useGetSkillsQuery()
+    const { data: all_roles, isSuccess: isRoleSuccess } = useGetRolesQuery()
+    const { data: all_teams, isSuccess: isTeamSuccess } = useGetTeamsQuery()
 
     const [updateUser, { isLoading}] = useUpdateUserMutation()
     

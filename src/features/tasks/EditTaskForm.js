@@ -32,9 +32,9 @@ const EditTaskForm = ({ task }) => {
     const [Teams, setTeams] = useState(teams.map(e => e._id))
     const [DateLine,setDateLine]=useState(new Date(dateline))
     
-    const { data: all_skills, isSuccess: isSkillSuccess } = useGetSkillsQuery("skillsList")
-    const { data: all_projects, isSuccess: isProjectSuccess } = useGetProjectsQuery("projectsList")
-    const { data: all_teams, isSuccess: isTeamSuccess } = useGetTeamsQuery("teamsList")
+    const { data: all_skills, isSuccess: isSkillSuccess } = useGetSkillsQuery()
+    const { data: all_projects, isSuccess: isProjectSuccess } = useGetProjectsQuery()
+    const { data: all_teams, isSuccess: isTeamSuccess } = useGetTeamsQuery()
 
     const debouncedCheckLists = useDebounce(CheckLists, 100);
 

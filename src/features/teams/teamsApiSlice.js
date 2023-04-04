@@ -7,8 +7,8 @@ const initialState = teamsAdapter.getInitialState()
 export const teamsApiSlice = apiSlice.injectEndpoints({
     endpoints:builder=>({
         getTeams:builder.query({
-            query:()=>({
-                url:"/teams",
+            query:(filter)=>({
+                url:`/teams/${JSON.stringify({ ...filter })}`,
                 validateStatus:(res,result)=>{
                     return res.status === 200 && !result.isError
                 },

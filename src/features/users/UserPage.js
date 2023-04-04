@@ -7,12 +7,12 @@ const UserPage = () => {
 
     const { username } = useCurrentUser()
 
-    const {currentUser,isLoading,isSuccess}=useGetUsersQuery({filter:{username}},{
+    const {currentUser,isLoading,isSuccess}=useGetUsersQuery({username},{
         selectFromResult:({data,isLoading,isSuccess})=>({
             currentUser:data?.entities[data?.ids],isLoading,isSuccess
         }),
         
-    },"usersList")
+    })
 
     let content
     if(isLoading) content=<p>Loading...</p>

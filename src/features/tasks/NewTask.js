@@ -25,9 +25,9 @@ const NewTask = () => {
     const descriptionRef = useRef()
     const [Skills, setSkills] = useState([])
     const [DateLine,setDateLine]=useState(new Date())
-    const {data:skills,isSuccess:isSkillSuccess} = useGetSkillsQuery("skillsList")
-    const {data:projects,isSuccess:isProjectSuccess} = useGetProjectsQuery("projectsList")
-    const {data:teams,isSuccess:isTeamSuccess} = useGetTeamsQuery("teamsList")
+    const {data:skills,isSuccess:isSkillSuccess} = useGetSkillsQuery()
+    const {data:projects,isSuccess:isProjectSuccess} = useGetProjectsQuery()
+    const {data:teams,isSuccess:isTeamSuccess} = useGetTeamsQuery()
 
 
 

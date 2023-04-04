@@ -5,11 +5,11 @@ import Task from "./Task";
 const TaskComponent = () => {
     
     const {id} =useParams()
-    const {task} = useGetTasksQuery({filter:{_id:id}},{
+    const {task} = useGetTasksQuery({_id:id},{
         selectFromResult:({data})=>({
             task:data?.entities[id]
         })
-    },"tasksList")
+    },)
 
     if(task){
     return <Task key={id} taskId={id}/>

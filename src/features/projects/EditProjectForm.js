@@ -11,12 +11,12 @@ import { useDeleteProjectMutation, useUpdateProjectMutation } from "./projectsAp
 export default function EditProjectForm({project}) {
     const {id,projectname,manager,teams:project_teams } = project
     const { data: users,
-    } = useGetUsersQuery("usersList", {
+    } = useGetUsersQuery(null,{
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
     })
     const { data: teams,
-    } = useGetTeamsQuery("teamsList", {
+    } = useGetTeamsQuery(null,{
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
     })

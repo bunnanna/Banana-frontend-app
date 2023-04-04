@@ -18,18 +18,17 @@ const CompletedList = () => {
     },[Search])
 
     const currentUser = useCurrentUser()
-    const {user}=useGetUsersQuery({filter:{username:currentUser.username}},{
+    const {user}=useGetUsersQuery({username:currentUser.username},{
         selectFromResult:({data})=>({
             user:data?.entities[data?.ids]
         })
-    },"usersList")
+    })
 
     const {data:tasks,
         isLoading,isError,error
-    }=useGetTasksQuery({filter:{status:"Complete",teams:{$in:user?.teams.map(e=>e?._id)}}},{
-        pollingInterval:60*1000,
+    }=useGetTasksQuery({status:"Complete",teams:{$in:user?.teams.map(e=>e?._id)}} ||{status:"Complete"},{
         refetchOnFocus:true,
-        refetchOnMountOrArgChange:true},"tasksList")
+        refetchOnMountOrArgChange:true},)
     let content
     if(isLoading){content=<p>Loading</p>}
     if(isError){content = <p>Something went wrong {error?.data?.message}</p>}

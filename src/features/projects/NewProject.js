@@ -10,12 +10,12 @@ import { useAddNewProjectMutation } from './projectsApiSlice'
 
 function NewProject() {
     const { data: users,
-    } = useGetUsersQuery("usersList", {
+    } = useGetUsersQuery(null, {
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
     })
     const { data: teams,
-    } = useGetTeamsQuery("teamsList", {
+    } = useGetTeamsQuery(null,{
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
     })

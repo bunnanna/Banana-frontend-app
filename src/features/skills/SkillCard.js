@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 import { useGetSkillsQuery } from './skillsApiSlice';
 
 export default function SkillCard({skillId}) {
-    const {skill} = useGetSkillsQuery({filter:{_id:skillId}},{
+    const {skill} = useGetSkillsQuery({_id:skillId},{
         selectFromResult:({data})=>({
             skill:data?.entities[skillId]
         })
-    },"skillsList")
+    })
 
     let content
     if(skill){

@@ -14,7 +14,7 @@ const SignUp = () => {
     const [password, setPassword] = useState()
     const [errMsg, setErrMsg] = useState()
     const [Skills, setSkills] = useState([])
-    const { data: skills, isSuccess } = useGetSkillsQuery("skillsList")
+    const { data: skills, isSuccess } = useGetSkillsQuery()
 
     const navigate = useNavigate()
 

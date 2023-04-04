@@ -7,8 +7,8 @@ const initialState = projectsAdapter.getInitialState()
 export const projectsApiSlice = apiSlice.injectEndpoints({
     endpoints:builder=>({
         getProjects:builder.query({
-            query:()=>({
-                url:"/projects",
+            query:(filter)=>({
+                url:`/projects/${JSON.stringify({ ...filter })}`,
                 validateStatus:(res,result)=>{
                     return res.status === 200 && !result.isError
                 },

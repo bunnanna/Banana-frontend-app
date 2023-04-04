@@ -7,11 +7,11 @@ import { useGetTeamsQuery } from './teamsApiSlice';
 
 const TeamCard = ({teamId}) => {
 
-    const {team} = useGetTeamsQuery({filter:{_id:teamId}},{
+    const {team} = useGetTeamsQuery({_id:teamId},{
         selectFromResult:({data})=>({
             team:data?.entities[teamId]
         })
-    },"teamsList")
+    })
 
     let content
     if(team){

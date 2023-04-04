@@ -17,8 +17,7 @@ const TeamsList = () => {
     
     const {data:teams,
         isLoading,isError,error
-    }=useGetTeamsQuery("teamsList",{
-        pollingInterval:60*1000,
+    }=useGetTeamsQuery(null,{
         refetchOnFocus:true,
         refetchOnMountOrArgChange:true})
 

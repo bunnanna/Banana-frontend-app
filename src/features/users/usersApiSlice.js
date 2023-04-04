@@ -7,10 +7,8 @@ const initialState = usersAdapter.getInitialState()
 export const usersApiSlice = apiSlice.injectEndpoints({
     endpoints:builder=>({
         getUsers:builder.query({
-            query:(user)=>({
-                url:"/users",
-                method:"PUT",
-                body:user,
+            query:(filter)=>({
+                url:`/users/${JSON.stringify({ ...filter })}`,
                 validateStatus:(res,result)=>{
                     return res.status === 200 && !result.isError
                 },

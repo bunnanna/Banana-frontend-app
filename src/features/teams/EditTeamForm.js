@@ -12,12 +12,12 @@ export default function EditTeamForm({team}) {
     const {id,teamname,manager,member} = team
 
     const { data: users,
-    } = useGetUsersQuery("usersList", {
+    } = useGetUsersQuery(null, {
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
     })
     const { data: teams,
-    } = useGetTeamsQuery("teamsList", {
+    } = useGetTeamsQuery(null,{
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
     })

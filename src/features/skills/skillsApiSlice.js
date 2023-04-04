@@ -7,8 +7,8 @@ const initialState = skillsAdapter.getInitialState()
 export const skillsApiSlice = apiSlice.injectEndpoints({
     endpoints:builder=>({
         getSkills:builder.query({
-            query:()=>({
-                url:"/skills",
+            query:(filter)=>({
+                url:`/skills/${JSON.stringify({ ...filter })}`,
                 validateStatus:(res,result)=>{
                     return res.status === 200 && !result.isError
                 },

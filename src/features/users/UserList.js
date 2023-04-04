@@ -9,8 +9,7 @@ export default function UserList() {
 
     const {data,
         isLoading
-    }=useGetUsersQuery("usersList",{
-        pollingInterval:60*1000,
+    }=useGetUsersQuery(null,{
         refetchOnFocus:true,
         refetchOnMountOrArgChange:true}) 
 

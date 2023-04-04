@@ -11,11 +11,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePen } from "@fortawesome/free-solid-svg-icons";
 
 const Task = ({ taskId }) => {
-    const { task } = useGetTasksQuery({ filter: { _id: taskId } }, {
+    const { task } = useGetTasksQuery( { _id: taskId } , {
         selectFromResult: ({ data }) => ({
             task: data?.entities[taskId]
         })
-    }, "tasksList")
+    })
     const [updatecheckTask] = useUpdatecheckTaskMutation()
     const [updateTask] = useUpdateTaskMutation()
     const [CheckLists, setCheckLists] = useState(task?.checklists)
