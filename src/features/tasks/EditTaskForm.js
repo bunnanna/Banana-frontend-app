@@ -50,7 +50,7 @@ const EditTaskForm = ({ task }) => {
             setSkills([""])
             setCheckLists([{ check: false, subtask: "" }])
             setErrmsg("* Field Required")
-            navigate(`/main/joblist/${id}`)
+            navigate(`/main/task/${id}`)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, isDelSuccess, navigate])

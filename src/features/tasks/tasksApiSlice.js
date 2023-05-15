@@ -9,7 +9,8 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
         getTasks: builder.query({
             query: ( filter ) => {
                 return {
-                    url: `/tasks/${JSON.stringify({ ...filter })}`,
+                    url: `/tasks`,
+                    params:{...filter },
                     validateStatus: (res, result) => {
                         return res.status === 200 && !result.isError
                     },

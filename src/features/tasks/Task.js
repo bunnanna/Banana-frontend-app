@@ -45,12 +45,12 @@ const Task = ({ taskId }) => {
     const onHandleSubmit = async (e, status) => {
         e.preventDefault()
         await updateTask({ id: taskId, status, activity: { username: currentUser.id, action: `${status} This Task` } })
-        navigate("/main/joblist")
+        navigate("/main/task")
     }
     const onHandleComplete = async (e, status) => {
         e.preventDefault()
         await updateTask({ id: taskId, status, activity: { username: currentUser.id, action: `${status} This Task` }, complete: true })
-        navigate("/main/joblist")
+        navigate("/main/task")
     }
 
 
@@ -72,7 +72,7 @@ const Task = ({ taskId }) => {
 
             <Card.Header className="p-0 d-flex align-items-center justify-content-between">
 
-                {project.projectname} {`Status:${status}`}<Link to={`/main/joblist/${taskId}/edit`}><FontAwesomeIcon size="xl" className="m-2" icon={faFilePen} /></Link>
+                {project.projectname} {`Status:${status}`}<Link to={`/main/task/${taskId}/edit`}><FontAwesomeIcon size="xl" className="m-2" icon={faFilePen} /></Link>
 
             </Card.Header>
 

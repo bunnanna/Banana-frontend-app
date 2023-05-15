@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import FirstPage from "./components/FirstPage";
-import JobsList from "./features/tasks/JobsList";
+import AssignedList from "./features/tasks/AssignedList";
 import NewTask from "./features/tasks/NewTask";
 import Layout from "./components/Layout";
 import Login from "./components/Login";
@@ -13,15 +13,12 @@ import RequireAuth from "./features/auth/RequireAuth";
 import SignUp from "./features/users/SignUp";
 import PersistLogin from "./features/auth/PersistLogin";
 import UserPage from "./features/users/UserPage";
-import PrefetchA from "./features/auth/PrefetchA";
 import ProjectsList from "./features/projects/ProjectList";
 import NewProject from "./features/projects/NewProject";
 import TeamsList from "./features/teams/TeamsList";
 import NewTeam from "./features/teams/NewTeam";
 import EditProject from "./features/projects/EditProject";
 import EditTeam from "./features/teams/EditTeam";
-import ApprovedList from "./features/tasks/ApprovedList";
-import CompletedList from "./features/tasks/CompletedList";
 import MainIndex from "./components/MainIndex";
 import SkillsList from "./features/skills/SkillsList";
 import NewSkill from "./features/skills/NewSkill";
@@ -35,7 +32,6 @@ import EditUser from "./features/users/EditUser";
 function App() {
   return (
     <Routes>
-      <Route element={<PrefetchA/>}>
       <Route path="/" element={<Layout/>}>
         <Route path="/" element={<FirstPage/>}/>
         <Route path="/login" element={<Login/>}/>
@@ -46,8 +42,8 @@ function App() {
         <Route element={<RequireAuth allowedRoles={["Employee"]}/>}>
         <Route path="main" element={<MainPage/>}>
           <Route index element={<MainIndex/>}/>
-          <Route path="joblist" element={<OutletLayout/>}>
-            <Route index element={<JobsList/>}/>
+          <Route path="task" element={<OutletLayout/>}>
+            <Route index element={<AssignedList status="assign" />}/>
             <Route path="new" element={<NewTask/>}/>
             <Route path=":id" element={<OutletLayout/>}>
               <Route index element={<TaskComponent/>}/>
@@ -89,10 +85,10 @@ function App() {
 
 
         <Route path="approve" element={<OutletLayout/>}>
-            <Route index element={<ApprovedList/>}/>
+            <Route index element={<AssignedList status="Submitted"/>}/>
         </Route>
         <Route path="complete" element={<OutletLayout/>}>
-            <Route index element={<CompletedList/>}/>
+            <Route index element={<AssignedList status="Complete"/>}/>
         </Route>
         </Route>
 
@@ -107,7 +103,6 @@ function App() {
         </Route>
         </Route>
         </Route>
-      </Route>
       </Route>
     </Routes>
   );

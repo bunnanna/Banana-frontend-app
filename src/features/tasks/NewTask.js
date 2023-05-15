@@ -40,7 +40,7 @@ const NewTask = () => {
             setSkills([""])
             setCheckLists([{ check: false, subtask: "" }])
             setErrmsg("* Field Required")
-            navigate("/main/joblist")
+            navigate("/main/task")
         }
     },[isSuccess,navigate])
 

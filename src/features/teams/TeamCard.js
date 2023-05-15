@@ -24,7 +24,7 @@ const TeamCard = ({teamId}) => {
         { member?.length>0&&<Card.Subtitle>Member</Card.Subtitle> }
         {member.map(user=><Card.Text key={user._id} className="mb-0">{user.username}</Card.Text>)}
         {project?.length>0 && <Card.Subtitle>Project</Card.Subtitle>}
-        {project.map(project=><Card.Text key={project._id} className="mb-0"><Card.Link href={`/main/joblist/${project._id}`}>{project.projectname}</Card.Link></Card.Text>)}
+        {project.map(project=><Card.Text key={project._id} className="mb-0"><Card.Link href={`/main/task/${project._id}`}>{project.projectname}</Card.Link></Card.Text>)}
 
       </Card.Body>
     </Card>

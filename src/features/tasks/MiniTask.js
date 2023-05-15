@@ -12,7 +12,7 @@ const MiniTask = ({ taskId }) => {
     if (task) {
 
         const { project, taskname, teams, skills } = task
-        return (<Link to={`/main/joblist/${taskId}`}>
+        return (<Link to={`/main/task/${taskId}`}>
             <Card className={`m-2`}>
                 <Card.Header>
                     {project.projectname}

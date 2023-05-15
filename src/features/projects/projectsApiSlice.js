@@ -8,7 +8,8 @@ export const projectsApiSlice = apiSlice.injectEndpoints({
     endpoints:builder=>({
         getProjects:builder.query({
             query:(filter)=>({
-                url:`/projects/${JSON.stringify({ ...filter })}`,
+                url:`/projects`,
+                params:{...filter },
                 validateStatus:(res,result)=>{
                     return res.status === 200 && !result.isError
                 },

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import EditProjectForm from "./EditProjectForm"
+import ProjectForm from "./ProjectForm"
 import { useGetProjectsQuery } from "./projectsApiSlice"
 
 export default function EditProject() {
@@ -10,6 +10,6 @@ export default function EditProject() {
         })
     })
     if(!project) return <p>Notfound</p> 
-    const content = <EditProjectForm project={project}/>
+    const content = <ProjectForm project={project}/>
     return content;
 }

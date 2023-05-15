@@ -25,7 +25,7 @@ const ProjectCard = ({projectId}) => {
           <Col>
         <Card.Title className="mb-2">Manager: {manager.username}</Card.Title>
         <Card.Title>Tasks :</Card.Title>
-        {tasks.map(task=><Card.Text key={task._id} className="mb-0"><Card.Link style={{fontSize: "1.5rem",padding:"0"}} href={`/main/joblist/${task._id}`}>{task.taskname}</Card.Link></Card.Text>)}
+        {tasks.map(task=><Card.Text key={task._id} className="mb-0"><Card.Link style={{fontSize: "1.5rem",padding:"0"}} href={`/main/task/${task._id}`}>{task.taskname}</Card.Link></Card.Text>)}
         </Col>
         <Col>
         <CardGroup className="d-flex flex-column align-items-center">
